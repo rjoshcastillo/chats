@@ -21,20 +21,32 @@ export const useShowUpAnimation = ({
   const translateY = useSharedValue(fromY);
   const opacity = useSharedValue(0);
 
-  useEffect(() => {
-    const start = () => {
-      opacity.value = withTiming(1, { duration, easing: Easing.out(Easing.ease) });
-      translateY.value = withSpring(0, { damping: 12, stiffness: 100 });
-    };
+  const reanimate = () => {
+    opacity.value = 0;
+    translateY.value = fromY;
+    opacity.value = withTiming(1, {
+      duration,
+      easing: Easing.out(Easing.ease),
+    });
+    translateY.value = withSpring(0, {
+      damping: 12,
+      stiffness: 100,
+    });
+  };
 
-    if (delay) setTimeout(start, delay);
-    else start();
+  useEffect(() => {
+    if (delay) {
+      const timer = setTimeout(reanimate, delay);
+      return () => clearTimeout(timer);
+    } else {
+      reanimate();
+    }
   }, []);
 
-  const style = useAnimatedStyle(() => ({
+  const animate = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ translateY: translateY.value }],
   }));
 
-  return style;
+  return { animate, reanimate };
 };

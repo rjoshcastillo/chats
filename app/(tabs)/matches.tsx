@@ -1,30 +1,153 @@
+import ChatItemList from "@/components/molecules/matches/chat-items-list";
 import ScreenWrapper from "@/components/screen-wrapper";
 import { Colors } from "@/constants/theme";
-import { View } from "react-native";
-import { StyleSheet, Text } from "react-native";
+import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
+import { chatDataType } from "@/types/common";
+import { LinearGradient } from "expo-linear-gradient";
+import { MessageCircle } from "lucide-react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import Animated from "react-native-reanimated";
 
 export default function MatchesScreen() {
+  const chatData: chatDataType[] = [
+    {
+      name: "Josh",
+      status: "Active",
+      time: "2 min ago",
+      message: "Naisu, this is a sample conversation.",
+      interests: ["Travel", "Personal"],
+      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+    },
+    {
+      name: "Ava",
+      status: "Ended",
+      time: "3 hrs ago",
+      message: "Hey! Are we still on for tonight?",
+      interests: ["Music", "Movies"],
+      avatar: "https://randomuser.me/api/portraits/men/2.jpg",
+    },
+    {
+      name: "Liam",
+      status: "Ended",
+      time: "2 Weeks ago",
+      message: "I'll send you the files once I get home.",
+      interests: ["Work", "Tech"],
+      avatar: "https://randomuser.me/api/portraits/men/8.jpg",
+    },
+    {
+      name: "Sophia",
+      status: "Ended",
+      time: "24 hrs agp",
+      message: "Hold on, I'm writing something for you 😄",
+      interests: ["Books", "Travel"],
+      avatar: "https://randomuser.me/api/portraits/men/4.jpg",
+    },
+    {
+      name: "Noah",
+      status: "Ended",
+      time: "10 min ago",
+      message: "That place was amazing! We should go again.",
+      interests: ["Food", "Adventure"],
+      avatar: "https://randomuser.me/api/portraits/men/5.jpg",
+    },
+    {
+      name: "Isabella",
+      status: "Ended",
+      time: "1 hour ago",
+      message: "Don't forget to bring the documents tomorrow.",
+      interests: ["Work", "Health"],
+      avatar: "https://randomuser.me/api/portraits/men/6.jpg",
+    },
+    {
+      name: "Ethan",
+      status: "Ended",
+      time: "1 hour ago",
+      message: "Call me when you’re free!",
+      interests: ["Gaming", "Movies"],
+      avatar: "https://randomuser.me/api/portraits/men/7.jpg",
+    },
+    {
+      name: "Mia",
+      status: "Ended",
+      time: "30 min ago",
+      message: "Loved that song you sent 🎶",
+      interests: ["Music", "Art"],
+      avatar: "https://randomuser.me/api/portraits/men/9.jpg",
+    },
+  ];
+
+  const fadeIn = useFadeInAnimation({ fromScale: 0.9, duration: 400 });
   return (
     <ScreenWrapper>
       <View style={styles.header}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={{ color: Colors["--red-500"]}}>5</Text>
-          <Text style={{ fontSize: 12, color: "#aaa", fontWeight: "600" }}>
-            Total Matches
-          </Text>
+        <LinearGradient
+          colors={["rgba(0,0,0,0.1)", "transparent"]}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 10,
+          }}
+        />
+        <View
+          style={[
+            {
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-around",
+              paddingVertical: 10,
+            },
+          ]}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text style={[styles.heading1, { color: Colors["--red-500"] }]}>
+              5
+            </Text>
+            <Text style={styles.heading3}>Lorem Ipsum</Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={[styles.heading1, { color: Colors["--blue-500"] }]}>
+              18
+            </Text>
+            <Text style={styles.heading3}>Lorem Ipsum</Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={[styles.heading1, { color: Colors["--green-500"] }]}>
+              3
+            </Text>
+            <Text style={styles.heading3}>Lorem Ipsum</Text>
+          </View>
         </View>
-        <View style={{ alignItems: "center" }}>
-          <Text  style={{ color: Colors["--blue-500"]}}>18</Text>
-          <Text style={{ fontSize: 12, color: "#aaa", fontWeight: "600" }}>
-            Total Matches
-          </Text>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <Text  style={{ color: Colors["--green-500"]}}>3</Text>
-          <Text style={{ fontSize: 12, color: "#aaa", fontWeight: "600" }}>
-            Total Matches
-          </Text>
-        </View>
+      </View>
+      <View>
+        <Animated.View
+          style={[
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 8,
+              padding: 20,
+            },
+            fadeIn.animate,
+          ]}
+        >
+          <MessageCircle size={20} color="#666" />
+          <Text style={{ color: "#666" }}>Conversations</Text>
+        </Animated.View>
+        <FlatList
+          scrollEnabled={false}
+          data={chatData}
+          style={{
+            paddingHorizontal: 16,
+            paddingVertical: 4,
+          }}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
+          renderItem={({ item, index }) => (
+            <ChatItemList item={item} index={index} />
+          )}
+        ></FlatList>
       </View>
     </ScreenWrapper>
   );
@@ -32,14 +155,16 @@ export default function MatchesScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
     paddingVertical: 20,
     paddingHorizontal: 20,
+    position: "relative",
+  },
+  heading1: {
+    fontSize: 24,
+    fontWeight: "600",
+  },
+  heading3: {
+    color: "#666",
+    fontSize: 14,
   },
 });

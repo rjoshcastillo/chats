@@ -7,7 +7,7 @@ import {
   Easing,
 } from "react-native-reanimated";
 
-interface ShowUpOptions {
+interface FadeInOptions {
   fromScale?: number;
   duration?: number;
   delay?: number;
@@ -17,12 +17,16 @@ export const useFadeInAnimation = ({
   fromScale = 0.9,
   duration = 500,
   delay = 0,
-}: ShowUpOptions = {}) => {
+}: FadeInOptions = {}) => {
   const opacity = useSharedValue(0);
   const scale = useSharedValue(fromScale);
 
-  useEffect(() => {
-    const start = () => {
+
+  const reanimate = () => {
+    opacity.value = 0;
+    scale.value = fromScale;
+
+    const startAnimation = () => {
       opacity.value = withTiming(1, {
         duration,
         easing: Easing.out(Easing.ease),
@@ -30,14 +34,21 @@ export const useFadeInAnimation = ({
       scale.value = withSpring(1, { damping: 12, stiffness: 100 });
     };
 
-    if (delay) setTimeout(start, delay);
-    else start();
+    if (delay) {
+      setTimeout(startAnimation, delay);
+    } else {
+      startAnimation();
+    }
+  };
+
+  useEffect(() => {
+    reanimate(); 
   }, []);
 
-  const style = useAnimatedStyle(() => ({
+  const animate = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ scale: scale.value }],
   }));
 
-  return style;
+  return { animate, reanimate };
 };

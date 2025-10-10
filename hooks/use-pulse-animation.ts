@@ -4,6 +4,7 @@ import {
   useAnimatedStyle,
   withRepeat,
   withTiming,
+  cancelAnimation,
   Easing,
 } from "react-native-reanimated";
 
@@ -22,24 +23,39 @@ export const usePulseAnimation = ({
 }: PulseOptions = {}) => {
   const scale = useSharedValue(scaleFrom);
 
+  const start = () => {
+    scale.value = withRepeat(
+      withTiming(scaleTo, {
+        duration,
+        easing: Easing.inOut(Easing.ease),
+      }),
+      -1, // infinite
+      true // reverse back and forth
+    );
+  };
+
+  const stop = () => {
+    cancelAnimation(scale);
+    scale.value = scaleFrom;
+  };
+
+  const reanimate = () => {
+    stop();
+    start();
+  };
+
   useEffect(() => {
-    const start = () => {
-      scale.value = withRepeat(
-        withTiming(scaleTo, {
-          duration,
-          easing: Easing.inOut(Easing.ease),
-        }),
-        -1,
-        true
-      );
-    };
-    if (delay) setTimeout(start, delay);
-    else start();
+    if (delay) {
+      const timer = setTimeout(reanimate, delay);
+      return () => clearTimeout(timer);
+    } else {
+      reanimate();
+    }
   }, []);
 
-  const style = useAnimatedStyle(() => ({
+  const animate = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
-  return style;
+  return { animate, reanimate };
 };

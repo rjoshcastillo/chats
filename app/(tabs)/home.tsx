@@ -4,7 +4,7 @@ import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
-import { quickLinksType, recentActivityType } from "@/types/common";
+import { recentActivityType } from "@/types/common";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Clock,
@@ -15,25 +15,24 @@ import {
   Users2,
   Zap,
 } from "lucide-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dimensions,
   FlatList,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import Animated from "react-native-reanimated";
-
-const { width } = Dimensions.get("window");
-const ITEM_MARGIN = 10;
-const NUM_COLUMNS = 2;
-const ITEM_WIDTH = (width - ITEM_MARGIN * (NUM_COLUMNS + 1)) / NUM_COLUMNS;
+import AnimatedScreen from "@/components/animated-screen";
+import { useIsFocused } from "@react-navigation/native";
+import RecentActivityList from "@/components/molecules/home/recent-activity-list";
+import QuickActionList from "@/components/molecules/home/quick-action-list";
 
 export default function HomeScreen() {
+  const isFocused = useIsFocused();
   const fadeIn = useFadeInAnimation({ fromScale: 0.9, duration: 400 });
   const pulse = usePulseAnimation({ scaleTo: 1.1, duration: 600 });
   const slideInXY = useSlideInAnimation({
@@ -41,15 +40,7 @@ export default function HomeScreen() {
     fromY: -100,
     duration: 500,
   });
-  const slideInY = useSlideInAnimation({
-    fromY: 100,
-    duration: 300,
-  });
-  const quickLinks: quickLinksType[] = [
-    { label: "Matches", link: "/matches", icon: Heart },
-    { label: "Profile", link: "/profile", icon: User2 },
-    { label: "Premium", link: "/premium", icon: Star },
-  ];
+
   const recentActivty: recentActivityType[] = [
     { id: "12", activity: "Josh has visited your profile", date: "2 mins ago" },
     {
@@ -68,46 +59,63 @@ export default function HomeScreen() {
       date: "32 mins ago",
     },
   ];
+
+  useEffect(() => {
+    if (isFocused) {
+      // Reset animations whenever you revisit the Home screen
+      fadeIn.reanimate?.();
+      pulse.reanimate?.();
+      slideInXY.reanimate?.();
+    }
+  }, [isFocused]);
   return (
-    <ScreenWrapper>
-      {/* Home Statistics & Profile */}
-      <Animated.View style={[styles.header, slideInXY]}>
-        <LinearGradient
-          colors={["rgba(0,0,0,0.1)", "transparent"]}
-          style={styles.bottomShadow}
-        />
-        <View style={styles.headerInner}>
-          <View>
-            <Text style={styles.heading1}>Hey There!</Text>
-            <Text style={styles.heading3}>Hey, This is the subtitle?</Text>
-          </View>
+    <AnimatedScreen>
+      <ScreenWrapper>
+        {/* Home Statistics & Profile */}
+        <Animated.View style={[styles.header, slideInXY.animate]}>
+          <LinearGradient
+            colors={["rgba(0,0,0,0.1)", "transparent"]}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 10,
+            }}
+          />
+          <View style={styles.headerInner}>
+            <View>
+              <Text style={styles.heading1}>Hey There!</Text>
+              <Text style={styles.heading3}>Hey, This is the subtitle?</Text>
+            </View>
 
-          <TouchableOpacity style={styles.buttonAvatar}>
-            <User2 size={24} color={"white"} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.headerStatsContainer}>
-          <View style={styles.headerStatsBox}>
-            <Heart color={Colors["--red-500"]} />
-            <Text style={{ fontWeight: "600" }}>34</Text>
-            <Text style={{ fontSize: 12, color: "#666" }}>Total Matches</Text>
+            <TouchableOpacity style={styles.buttonAvatar}>
+              <User2 size={24} color={"white"} />
+            </TouchableOpacity>
           </View>
-          <View style={styles.headerStatsBox}>
-            <MessageCircle color={Colors["--blue-500"]} />
-            <Text style={{ fontWeight: "600" }}>7</Text>
-            <Text style={{ fontSize: 12, color: "#666" }}>Active Chats</Text>
+          <View style={styles.headerStatsContainer}>
+            <View style={styles.headerStatsBox}>
+              <Heart color={Colors["--red-500"]} />
+              <Text style={{ fontWeight: "600" }}>34</Text>
+              <Text style={{ fontSize: 12, color: "#666" }}>Total Matches</Text>
+            </View>
+            <View style={styles.headerStatsBox}>
+              <MessageCircle color={Colors["--blue-500"]} />
+              <Text style={{ fontWeight: "600" }}>7</Text>
+              <Text style={{ fontSize: 12, color: "#666" }}>Active Chats</Text>
+            </View>
+            <View style={styles.headerStatsBox}>
+              <Users2 color={Colors["--green-500"]} />
+              <Text style={{ fontWeight: "600" }}>2.3k</Text>
+              <Text style={{ fontSize: 12, color: "#666" }}>Profile Views</Text>
+            </View>
           </View>
-          <View style={styles.headerStatsBox}>
-            <Users2 color={Colors["--green-500"]} />
-            <Text style={{ fontWeight: "600" }}>2.3k</Text>
-            <Text style={{ fontSize: 12, color: "#666" }}>Profile Views</Text>
-          </View>
-        </View>
-      </Animated.View>
+        </Animated.View>
 
-      <View style={{ padding: 20 }}>
         {/* Find Match Card */}
-        <Animated.View style={[{ marginVertical: 20 }, fadeIn]}>
+        <Animated.View
+          style={[{ marginVertical: 20, marginHorizontal: 20 }, fadeIn.animate]}
+        >
           <ThemedCard style={{ flex: 1 }}>
             <View
               style={{
@@ -147,7 +155,7 @@ export default function HomeScreen() {
                   qui officia deserunt mollit anim id est laborum
                 </Text>
               </View>
-              <Animated.View style={[pulse]}>
+              <Animated.View style={[pulse.animate]}>
                 <Pressable
                   style={({ pressed }) => [
                     {
@@ -170,104 +178,33 @@ export default function HomeScreen() {
         </Animated.View>
 
         {/* Quick Actions */}
-        <View>
-          <Animated.View style={[fadeIn]}>
+        <View style={{ marginHorizontal: 20 }}>
+          <Animated.View style={[fadeIn.animate]}>
             <Text style={[styles.heading1, { marginVertical: 20 }]}>
               Quick Actions
             </Text>
+            <QuickActionList />
           </Animated.View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 10,
-            }}
-          >
-            {quickLinks.map((item, index) => {
-              const fadeAnim = useFadeInAnimation({
-                fromScale: 0.9,
-                duration: 400,
-                delay: index * 100,
-              });
-
-              return (
-                <Animated.View key={index} style={[fadeAnim]}>
-                  <Pressable
-                    style={({ pressed }) => [
-                      {
-                        width: ITEM_WIDTH - 10,
-                        flexDirection: "row",
-                        backgroundColor: "#fff",
-                        height: 70,
-                        borderWidth: 2,
-                        borderRadius: 10,
-                        paddingHorizontal: 20,
-                        gap: 10,
-                        alignItems: "center",
-                        borderColor: pressed ? "#FFD93D" : "#eee",
-                      },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        width: 35,
-                        height: 35,
-                        backgroundColor: "#eee",
-                        borderRadius: 99,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <item.icon color="#343434ff" size={18} />
-                    </View>
-                    <Text>{item.label}</Text>
-                  </Pressable>
-                </Animated.View>
-              );
-            })}
-          </View>
         </View>
+
         {/* Recent Activity */}
-        <Animated.View style={[fadeIn, { paddingBottom: 30 }]}>
+        <View
+          style={[fadeIn.animate, { paddingBottom: 30, marginHorizontal: 20 }]}
+        >
           <Text style={[styles.heading1, { marginTop: 20, marginBottom: 10 }]}>
             Recent Activity
           </Text>
           <FlatList
             scrollEnabled={false}
             data={recentActivty}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  display: "flex",
-                  backgroundColor: "#fff",
-                  borderColor: "#eee",
-                  borderWidth: 2,
-                  paddingVertical: 16,
-                  paddingHorizontal: 10,
-                  borderRadius: 10,
-                  marginBottom: 10,
-                  height: 70,
-                }}
-              >
-                <Text>{item.activity}</Text>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                >
-                  <Clock size={12} color={"#aaa"} style={{ marginTop: 1 }} />
-                  <Text style={{ color: "#aaa" }}>{item.date}</Text>
-                </View>
-              </View>
+            ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
+            renderItem={({ item, index }) => (
+              <RecentActivityList item={item} index={index} />
             )}
           ></FlatList>
-        </Animated.View>
-      </View>
-    </ScreenWrapper>
+        </View>
+      </ScreenWrapper>
+    </AnimatedScreen>
   );
 }
 
@@ -277,13 +214,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: 185,
     position: "relative",
-  },
-  bottomShadow: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 10,
   },
   headerInner: {
     display: "flex",

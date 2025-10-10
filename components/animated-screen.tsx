@@ -1,18 +1,17 @@
-import { ScrollView, ScrollViewProps, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
+import { ScrollView, ScrollViewProps, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function ScreenWrapper({
+export default function AnimatedScreen({
   children,
   ...otherProps
 }: ScrollViewProps) {
-  const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const opacity = useSharedValue(0);
   const translateX = useSharedValue(30);
@@ -31,14 +30,10 @@ export default function ScreenWrapper({
     opacity: opacity.value,
     transform: [{ translateX: translateX.value }],
   }));
+
   return (
     <Animated.View style={[{ flex: 1 }, animatedStyle]}>
-      <ScrollView
-        style={[styles.container, { paddingTop: insets.top }]}
-        {...otherProps}
-      >
-        {children}
-      </ScrollView>
+      {children}
     </Animated.View>
   );
 }

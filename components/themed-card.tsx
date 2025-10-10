@@ -16,11 +16,11 @@ export function ThemedCard({ style, children, ...otherProps }: ViewProps) {
         style={[
           styles.decoration,
           { right: -10, width: 60, height: 60 },
-          pulse,
+          pulse.animate,
         ]}
       ></Animated.View>
       <Animated.View
-        style={[styles.decoration, { bottom: 50 }, pulse]}
+        style={[styles.decoration, { bottom: 50 }, pulse.animate]}
       ></Animated.View>
     </LinearGradient>
   );
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 4,
     overflow: "hidden",
     padding: 16,
     minHeight: 250,
