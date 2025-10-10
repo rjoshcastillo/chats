@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withSpring,
   withTiming,
   useSharedValue,
 } from "react-native-reanimated";
-import {
-  HomeIcon,
-  MessageCircle,
-  User2,
-  Heart,
-} from "lucide-react-native";
+import { HomeIcon, MessageCircle, User2, Heart } from "lucide-react-native";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
 
 // ✅ wrap Text so we can animate it
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -22,77 +18,78 @@ const TAB_WIDTH = 90;
 const ACTIVE_COLOR = "#FF6B6B";
 const INACTIVE_COLOR = "#999";
 
-const icons: Record<string, React.ComponentType<{ color: string; size: number }>> = {
+const icons: Record<
+  string,
+  React.ComponentType<{ color: string; size: number }>
+> = {
   home: HomeIcon,
   messages: MessageCircle,
   matches: Heart,
   profile: User2,
 };
 
-const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
+const CustomTabBar: React.FC<BottomTabBarProps> = ({
+  state,
+  descriptors,
+  navigation,
+}) => {
   const activeIndex = state.index;
-
-  // 🟢 slide + fade animation on load
-  const translateY = useSharedValue(100);
-  const opacity = useSharedValue(0);
-
-  useEffect(() => {
-    translateY.value = withSpring(0, { damping: 10, stiffness: 160, mass: 0.8 });
-    opacity.value = withTiming(1, { duration: 400 });
-  }, []);
-
-  const containerStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-    opacity: opacity.value,
-  }));
-
+  const slideIn = useSlideInAnimation({
+    fromY: 100,
+    duration: 300,
+  });
   return (
-    <Animated.View style={[styles.container, containerStyle]}>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label = options.title ?? route.name;
-        const isFocused = activeIndex === index;
-        const Icon = icons[route.name];
+    <View style={{ height: 70, backgroundColor: '#fff' }}>
+      <Animated.View style={[styles.container, slideIn]}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label = options.title ?? route.name;
+          const isFocused = activeIndex === index;
+          const Icon = icons[route.name];
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
+          const onPress = () => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+          };
 
-        const iconStyle = useAnimatedStyle(() => ({
-          transform: [{ scale: withSpring(isFocused ? 1.1 : 1) }],
-          opacity: withTiming(isFocused ? 1 : 0.6),
-        }));
+          const iconStyle = useAnimatedStyle(() => ({
+            transform: [{ scale: withSpring(isFocused ? 1.1 : 1) }],
+            opacity: withTiming(isFocused ? 1 : 0.6),
+          }));
 
-        const textStyle = useAnimatedStyle(() => ({
-          color: withTiming(isFocused ? ACTIVE_COLOR : INACTIVE_COLOR),
-        }));
+          const textStyle = useAnimatedStyle(() => ({
+            color: withTiming(isFocused ? ACTIVE_COLOR : INACTIVE_COLOR),
+          }));
 
-        return (
-          <TouchableOpacity
-            key={route.key}
-            onPress={onPress}
-            activeOpacity={0.8}
-            style={styles.tab}
-          >
-            <Animated.View style={[{ alignItems: "center" }, iconStyle]}>
-              {Icon && (
-                <Icon color={isFocused ? ACTIVE_COLOR : INACTIVE_COLOR} size={ICON_SIZE} />
-              )}
-              <AnimatedText style={[styles.label, textStyle]}>
-                {label}
-              </AnimatedText>
-            </Animated.View>
-          </TouchableOpacity>
-        );
-      })}
-    </Animated.View>
+          return (
+            <TouchableOpacity
+              key={route.key}
+              onPress={onPress}
+              activeOpacity={0.8}
+              style={styles.tab}
+            >
+              <Animated.View style={[{ alignItems: "center" }, iconStyle]}>
+                {Icon && (
+                  <Icon
+                    color={isFocused ? ACTIVE_COLOR : INACTIVE_COLOR}
+                    size={ICON_SIZE}
+                  />
+                )}
+                <AnimatedText style={[styles.label, textStyle]}>
+                  {label}
+                </AnimatedText>
+              </Animated.View>
+            </TouchableOpacity>
+          );
+        })}
+      </Animated.View>
+    </View>
   );
 };
 
@@ -107,10 +104,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     position: "absolute",
     bottom: 0,
-    width: '100%',
-    borderTopColor: '#eee',
+    width: "100%",
+    borderTopColor: "#eee",
     borderTopWidth: 1,
-    shadowColor: '#000',
+    shadowColor: "#000",
   },
   tab: {
     width: TAB_WIDTH,

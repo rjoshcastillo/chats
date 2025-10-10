@@ -1,0 +1,1 @@
+export const matchGradient1 = ["#FF6B6B", "#FFD93D"];
