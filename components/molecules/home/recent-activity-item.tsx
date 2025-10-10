@@ -9,8 +9,8 @@ import Animated from "react-native-reanimated";
 export default function ({ item, index }: recentActivityItemType) {
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
-    duration: 400,
-    delay: index * 100,
+    duration: 600,
+    delay: index * 200,
   });
   const isFocused = useIsFocused();
   useEffect(() => {

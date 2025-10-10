@@ -26,3 +26,7 @@ export type recentActivityItemType = {
   item: recentActivityType;
   index: number;
 };
+export type quickActionItemType = {
+  item: quickActionType;
+  index: number;
+};

@@ -4,10 +4,9 @@ import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
-import { recentActivityType } from "@/types/common";
+import { quickActionType, recentActivityType } from "@/types/common";
 import { LinearGradient } from "expo-linear-gradient";
 import {
-  Clock,
   Heart,
   MessageCircle,
   Star,
@@ -17,7 +16,6 @@ import {
 } from "lucide-react-native";
 import React, { useEffect } from "react";
 import {
-  Dimensions,
   FlatList,
   Pressable,
   StyleSheet,
@@ -28,8 +26,8 @@ import {
 import Animated from "react-native-reanimated";
 import AnimatedScreen from "@/components/animated-screen";
 import { useIsFocused } from "@react-navigation/native";
-import RecentActivityList from "@/components/molecules/home/recent-activity-list";
-import QuickActionList from "@/components/molecules/home/quick-action-list";
+import QuickActionItem from "@/components/molecules/home/quick-action-item";
+import RecentActivityItem from "@/components/molecules/home/recent-activity-item";
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
@@ -59,7 +57,11 @@ export default function HomeScreen() {
       date: "32 mins ago",
     },
   ];
-
+  const actions: quickActionType[] = [
+    { label: "Matches", link: "/matches", icon: Heart },
+    { label: "Profile", link: "/profile", icon: User2 },
+    { label: "Premium", link: "/premium", icon: Star },
+  ];
   useEffect(() => {
     if (isFocused) {
       // Reset animations whenever you revisit the Home screen
@@ -183,7 +185,17 @@ export default function HomeScreen() {
             <Text style={[styles.heading1, { marginVertical: 20 }]}>
               Quick Actions
             </Text>
-            <QuickActionList />
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                gap: 10,
+              }}
+            >
+              {actions.map((item, index) => (
+                <QuickActionItem item={item} index={index} />
+              ))}
+            </View>
           </Animated.View>
         </View>
 
@@ -199,7 +211,7 @@ export default function HomeScreen() {
             data={recentActivty}
             ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
             renderItem={({ item, index }) => (
-              <RecentActivityList item={item} index={index} />
+              <RecentActivityItem item={item} index={index} />
             )}
           ></FlatList>
         </View>

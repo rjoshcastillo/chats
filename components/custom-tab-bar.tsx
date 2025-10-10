@@ -39,57 +39,55 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
     duration: 300,
   });
   return (
-    <View style={{ height: 70, backgroundColor: '#fff' }}>
-      <Animated.View style={[styles.container, slideIn]}>
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
-          const label = options.title ?? route.name;
-          const isFocused = activeIndex === index;
-          const Icon = icons[route.name];
+    <Animated.View style={[styles.container, slideIn.animate]}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label = options.title ?? route.name;
+        const isFocused = activeIndex === index;
+        const Icon = icons[route.name];
 
-          const onPress = () => {
-            const event = navigation.emit({
-              type: "tabPress",
-              target: route.key,
-              canPreventDefault: true,
-            });
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
+        const onPress = () => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
 
-          const iconStyle = useAnimatedStyle(() => ({
-            transform: [{ scale: withSpring(isFocused ? 1.1 : 1) }],
-            opacity: withTiming(isFocused ? 1 : 0.6),
-          }));
+        const iconStyle = useAnimatedStyle(() => ({
+          transform: [{ scale: withSpring(isFocused ? 1.1 : 1) }],
+          opacity: withTiming(isFocused ? 1 : 0.6),
+        }));
 
-          const textStyle = useAnimatedStyle(() => ({
-            color: withTiming(isFocused ? ACTIVE_COLOR : INACTIVE_COLOR),
-          }));
+        const textStyle = useAnimatedStyle(() => ({
+          color: withTiming(isFocused ? ACTIVE_COLOR : INACTIVE_COLOR),
+        }));
 
-          return (
-            <TouchableOpacity
-              key={route.key}
-              onPress={onPress}
-              activeOpacity={0.8}
-              style={styles.tab}
-            >
-              <Animated.View style={[{ alignItems: "center" }, iconStyle]}>
-                {Icon && (
-                  <Icon
-                    color={isFocused ? ACTIVE_COLOR : INACTIVE_COLOR}
-                    size={ICON_SIZE}
-                  />
-                )}
-                <AnimatedText style={[styles.label, textStyle]}>
-                  {label}
-                </AnimatedText>
-              </Animated.View>
-            </TouchableOpacity>
-          );
-        })}
-      </Animated.View>
-    </View>
+        return (
+          <TouchableOpacity
+            key={route.key}
+            onPress={onPress}
+            activeOpacity={0.8}
+            style={styles.tab}
+          >
+            <Animated.View style={[{ alignItems: "center" }, iconStyle]}>
+              {Icon && (
+                <Icon
+                  color={isFocused ? ACTIVE_COLOR : INACTIVE_COLOR}
+                  size={ICON_SIZE}
+                />
+              )}
+              <AnimatedText style={[styles.label, textStyle]}>
+                {label}
+              </AnimatedText>
+            </Animated.View>
+          </TouchableOpacity>
+        );
+      })}
+    </Animated.View>
   );
 };
 
@@ -102,8 +100,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 70,
     backgroundColor: "#fff",
-    position: "absolute",
-    bottom: 0,
     width: "100%",
     borderTopColor: "#eee",
     borderTopWidth: 1,
