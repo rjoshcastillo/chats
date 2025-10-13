@@ -12,6 +12,7 @@ export default function AnimatedScreen({
   children,
   ...otherProps
 }: ScrollViewProps) {
+  
   const isFocused = useIsFocused();
   const opacity = useSharedValue(0);
   const translateX = useSharedValue(30);

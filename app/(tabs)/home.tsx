@@ -1,10 +1,14 @@
+import AnimatedScreen from "@/components/animated-screen";
+import QuickActionItem from "@/components/molecules/home/quick-action-item";
+import RecentActivityItem from "@/components/molecules/home/recent-activity-item";
+import ScrollableScreenView from "@/components/scrollable-screen-view";
 import { ThemedCard } from "@/components/themed-card";
-import ScreenWrapper from "@/components/screen-wrapper";
 import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
 import { quickActionType, recentActivityType } from "@/types/common";
+import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Heart,
@@ -24,10 +28,6 @@ import {
   View,
 } from "react-native";
 import Animated from "react-native-reanimated";
-import AnimatedScreen from "@/components/animated-screen";
-import { useIsFocused } from "@react-navigation/native";
-import QuickActionItem from "@/components/molecules/home/quick-action-item";
-import RecentActivityItem from "@/components/molecules/home/recent-activity-item";
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
@@ -72,7 +72,7 @@ export default function HomeScreen() {
   }, [isFocused]);
   return (
     <AnimatedScreen>
-      <ScreenWrapper>
+      <ScrollableScreenView>
         {/* Home Statistics & Profile */}
         <Animated.View style={[styles.header, slideInXY.animate]}>
           <LinearGradient
@@ -193,14 +193,14 @@ export default function HomeScreen() {
               }}
             >
               {actions.map((item, index) => (
-                <QuickActionItem item={item} index={index} />
+                <QuickActionItem key={index} item={item} index={index} />
               ))}
             </View>
           </Animated.View>
         </View>
 
         {/* Recent Activity */}
-        <View
+        <Animated.View
           style={[fadeIn.animate, { paddingBottom: 30, marginHorizontal: 20 }]}
         >
           <Text style={[styles.heading1, { marginTop: 20, marginBottom: 10 }]}>
@@ -214,8 +214,8 @@ export default function HomeScreen() {
               <RecentActivityItem item={item} index={index} />
             )}
           ></FlatList>
-        </View>
-      </ScreenWrapper>
+        </Animated.View>
+      </ScrollableScreenView>
     </AnimatedScreen>
   );
 }

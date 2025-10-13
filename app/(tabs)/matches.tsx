@@ -1,5 +1,6 @@
+import AnimatedScreen from "@/components/animated-screen";
 import ChatItemList from "@/components/molecules/matches/chat-items-list";
-import ScreenWrapper from "@/components/screen-wrapper";
+import ScrollableScreenView from "@/components/scrollable-screen-view";
 import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { chatDataType } from "@/types/common";
@@ -78,78 +79,80 @@ export default function MatchesScreen() {
 
   const fadeIn = useFadeInAnimation({ fromScale: 0.9, duration: 400 });
   return (
-    <ScreenWrapper>
-      <View style={styles.header}>
-        <LinearGradient
-          colors={["rgba(0,0,0,0.1)", "transparent"]}
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 10,
-          }}
-        />
-        <View
-          style={[
-            {
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-around",
-              paddingVertical: 10,
-            },
-          ]}
-        >
-          <View style={{ alignItems: "center" }}>
-            <Text style={[styles.heading1, { color: Colors["--red-500"] }]}>
-              5
-            </Text>
-            <Text style={styles.heading3}>Lorem Ipsum</Text>
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <Text style={[styles.heading1, { color: Colors["--blue-500"] }]}>
-              18
-            </Text>
-            <Text style={styles.heading3}>Lorem Ipsum</Text>
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <Text style={[styles.heading1, { color: Colors["--green-500"] }]}>
-              3
-            </Text>
-            <Text style={styles.heading3}>Lorem Ipsum</Text>
+    <AnimatedScreen>
+      <ScrollableScreenView>
+        <View style={styles.header}>
+          <LinearGradient
+            colors={["rgba(0,0,0,0.1)", "transparent"]}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 10,
+            }}
+          />
+          <View
+            style={[
+              {
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-around",
+                paddingVertical: 10,
+              },
+            ]}
+          >
+            <View style={{ alignItems: "center" }}>
+              <Text style={[styles.heading1, { color: Colors["--red-500"] }]}>
+                5
+              </Text>
+              <Text style={styles.heading3}>Lorem Ipsum</Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text style={[styles.heading1, { color: Colors["--blue-500"] }]}>
+                18
+              </Text>
+              <Text style={styles.heading3}>Lorem Ipsum</Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text style={[styles.heading1, { color: Colors["--green-500"] }]}>
+                3
+              </Text>
+              <Text style={styles.heading3}>Lorem Ipsum</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View>
-        <Animated.View
-          style={[
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 8,
-              padding: 20,
-            },
-            fadeIn.animate,
-          ]}
-        >
-          <MessageCircle size={20} color="#666" />
-          <Text style={{ color: "#666" }}>Conversations</Text>
-        </Animated.View>
-        <FlatList
-          scrollEnabled={false}
-          data={chatData}
-          style={{
-            paddingHorizontal: 16,
-            paddingVertical: 4,
-          }}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
-          renderItem={({ item, index }) => (
-            <ChatItemList item={item} index={index} />
-          )}
-        ></FlatList>
-      </View>
-    </ScreenWrapper>
+        <View>
+          <Animated.View
+            style={[
+              {
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 8,
+                padding: 20,
+              },
+              fadeIn.animate,
+            ]}
+          >
+            <MessageCircle size={20} color="#666" />
+            <Text style={{ color: "#666" }}>Conversations</Text>
+          </Animated.View>
+          <FlatList
+            scrollEnabled={false}
+            data={chatData}
+            style={{
+              paddingHorizontal: 16,
+              paddingVertical: 4,
+            }}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
+            renderItem={({ item, index }) => (
+              <ChatItemList item={item} index={index} />
+            )}
+          ></FlatList>
+        </View>
+      </ScrollableScreenView>
+    </AnimatedScreen>
   );
 }
 
