@@ -71,152 +71,148 @@ export default function HomeScreen() {
     }
   }, [isFocused]);
   return (
-    <AnimatedScreen>
-      <ScrollableScreenView>
-        {/* Home Statistics & Profile */}
-        <Animated.View style={[styles.header, slideInXY.animate]}>
-          <LinearGradient
-            colors={["rgba(0,0,0,0.1)", "transparent"]}
+    <ScrollableScreenView>
+      {/* Home Statistics & Profile */}
+      <Animated.View style={[styles.header, slideInXY.animate]}>
+        <LinearGradient
+          colors={["rgba(0,0,0,0.1)", "transparent"]}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 10,
+          }}
+        />
+        <View style={styles.headerInner}>
+          <View>
+            <Text style={styles.heading1}>Hey There!</Text>
+            <Text style={styles.heading3}>Hey, This is the subtitle?</Text>
+          </View>
+
+          <TouchableOpacity style={styles.buttonAvatar}>
+            <User2 size={24} color={"white"} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerStatsContainer}>
+          <View style={styles.headerStatsBox}>
+            <Heart color={Colors["--red-500"]} />
+            <Text style={{ fontWeight: "600" }}>34</Text>
+            <Text style={{ fontSize: 12, color: "#666" }}>Total Matches</Text>
+          </View>
+          <View style={styles.headerStatsBox}>
+            <MessageCircle color={Colors["--blue-500"]} />
+            <Text style={{ fontWeight: "600" }}>7</Text>
+            <Text style={{ fontSize: 12, color: "#666" }}>Active Chats</Text>
+          </View>
+          <View style={styles.headerStatsBox}>
+            <Users2 color={Colors["--green-500"]} />
+            <Text style={{ fontWeight: "600" }}>2.3k</Text>
+            <Text style={{ fontSize: 12, color: "#666" }}>Profile Views</Text>
+          </View>
+        </View>
+      </Animated.View>
+
+      {/* Find Match Card */}
+      <Animated.View
+        style={[{ marginVertical: 20, marginHorizontal: 20 }, fadeIn.animate]}
+      >
+        <ThemedCard style={{ flex: 1 }}>
+          <View
             style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 10,
+              display: "flex",
+              alignItems: "center",
+              padding: 10,
             }}
-          />
-          <View style={styles.headerInner}>
-            <View>
-              <Text style={styles.heading1}>Hey There!</Text>
-              <Text style={styles.heading3}>Hey, This is the subtitle?</Text>
-            </View>
-
-            <TouchableOpacity style={styles.buttonAvatar}>
-              <User2 size={24} color={"white"} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.headerStatsContainer}>
-            <View style={styles.headerStatsBox}>
-              <Heart color={Colors["--red-500"]} />
-              <Text style={{ fontWeight: "600" }}>34</Text>
-              <Text style={{ fontSize: 12, color: "#666" }}>Total Matches</Text>
-            </View>
-            <View style={styles.headerStatsBox}>
-              <MessageCircle color={Colors["--blue-500"]} />
-              <Text style={{ fontWeight: "600" }}>7</Text>
-              <Text style={{ fontSize: 12, color: "#666" }}>Active Chats</Text>
-            </View>
-            <View style={styles.headerStatsBox}>
-              <Users2 color={Colors["--green-500"]} />
-              <Text style={{ fontWeight: "600" }}>2.3k</Text>
-              <Text style={{ fontSize: 12, color: "#666" }}>Profile Views</Text>
-            </View>
-          </View>
-        </Animated.View>
-
-        {/* Find Match Card */}
-        <Animated.View
-          style={[{ marginVertical: 20, marginHorizontal: 20 }, fadeIn.animate]}
-        >
-          <ThemedCard style={{ flex: 1 }}>
+          >
             <View
               style={{
+                width: 60,
+                height: 60,
+                backgroundColor: "rgba(255,255,255,0.3)",
+                borderRadius: 999,
                 display: "flex",
+                justifyContent: "center",
                 alignItems: "center",
-                padding: 10,
               }}
             >
-              <View
+              <Zap color="#fff" size={25} />
+            </View>
+            <View style={{ padding: 10, gap: 10, marginBottom: 20 }}>
+              <Text
                 style={{
-                  width: 60,
-                  height: 60,
-                  backgroundColor: "rgba(255,255,255,0.3)",
-                  borderRadius: 999,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  fontSize: 22,
+                  textAlign: "center",
+                  fontWeight: "600",
+                  color: "#fff",
                 }}
               >
-                <Zap color="#fff" size={25} />
-              </View>
-              <View style={{ padding: 10, gap: 10, marginBottom: 20 }}>
-                <Text
-                  style={{
-                    fontSize: 22,
-                    textAlign: "center",
-                    fontWeight: "600",
-                    color: "#fff",
-                  }}
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                </Text>
-                <Text
-                  style={{ textAlign: "center", color: "#eee", fontSize: 18 }}
-                >
-                  Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                  qui officia deserunt mollit anim id est laborum
-                </Text>
-              </View>
-              <Animated.View style={[pulse.animate]}>
-                <Pressable
-                  style={({ pressed }) => [
-                    {
-                      backgroundColor: "rgba(255,255,255,0.3)",
-                      height: 40,
-                      width: 120,
-                      borderRadius: 10,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: pressed ? 2 : 0,
-                      borderColor: pressed ? "#fff" : "transparent",
-                    },
-                  ]}
-                >
-                  <Text style={{ color: "#fff", fontWeight: "600" }}>Find</Text>
-                </Pressable>
-              </Animated.View>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+              </Text>
+              <Text
+                style={{ textAlign: "center", color: "#eee", fontSize: 18 }}
+              >
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa
+                qui officia deserunt mollit anim id est laborum
+              </Text>
             </View>
-          </ThemedCard>
-        </Animated.View>
+            <Animated.View style={[pulse.animate]}>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: "rgba(255,255,255,0.3)",
+                    height: 40,
+                    width: 120,
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: pressed ? 2 : 0,
+                    borderColor: pressed ? "#fff" : "transparent",
+                  },
+                ]}
+              >
+                <Text style={{ color: "#fff", fontWeight: "600" }}>Find</Text>
+              </Pressable>
+            </Animated.View>
+          </View>
+        </ThemedCard>
+      </Animated.View>
 
-        {/* Quick Actions */}
-        <View style={{ marginHorizontal: 20 }}>
-          <Animated.View style={[fadeIn.animate]}>
-            <Text style={[styles.heading1, { marginVertical: 20 }]}>
-              Quick Actions
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: 10,
-              }}
-            >
-              {actions.map((item, index) => (
-                <QuickActionItem key={index} item={item} index={index} />
-              ))}
-            </View>
-          </Animated.View>
-        </View>
-
-        {/* Recent Activity */}
-        <Animated.View
-          style={[fadeIn.animate, { paddingBottom: 30, marginHorizontal: 20 }]}
-        >
-          <Text style={[styles.heading1, { marginTop: 20, marginBottom: 10 }]}>
-            Recent Activity
+      {/* Quick Actions */}
+      <View style={{ marginHorizontal: 20 }}>
+        <Animated.View style={[fadeIn.animate]}>
+          <Text style={[styles.heading1, { marginVertical: 20 }]}>
+            Quick Actions
           </Text>
-          <FlatList
-            scrollEnabled={false}
-            data={recentActivty}
-            ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
-            renderItem={({ item, index }) => (
-              <RecentActivityItem item={item} index={index} />
-            )}
-          ></FlatList>
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 10,
+            }}
+          >
+            {actions.map((item, index) => (
+              <QuickActionItem key={index} item={item} index={index} />
+            ))}
+          </View>
         </Animated.View>
-      </ScrollableScreenView>
-    </AnimatedScreen>
+      </View>
+
+      {/* Recent Activity */}
+      <Animated.View style={[fadeIn.animate, { marginHorizontal: 20 }]}>
+        <Text style={[styles.heading1, { marginTop: 20, marginBottom: 10 }]}>
+          Recent Activity
+        </Text>
+        <FlatList
+          scrollEnabled={false}
+          data={recentActivty}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
+          renderItem={({ item, index }) => (
+            <RecentActivityItem item={item} index={index} />
+          )}
+        ></FlatList>
+      </Animated.View>
+    </ScrollableScreenView>
   );
 }
 

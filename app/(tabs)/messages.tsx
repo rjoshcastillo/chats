@@ -1,4 +1,5 @@
 import AnimatedScreen from "@/components/animated-screen";
+import ChatBubbles from "@/components/molecules/messages/chat-bubbles";
 import ScreenView from "@/components/screen-view";
 import Avatar from "@/components/ui/avatar";
 import { ArrowLeft, EllipsisVertical } from "lucide-react-native";
@@ -119,44 +120,11 @@ export default function MessagesScreen() {
         </View>
         <FlatList
           data={conversation}
-          renderItem={({ item }) => (
-            <View
-              style={[
-                styles.messageContainer,
-                item.isMine ? styles.myMsgWrapper : styles.theirMsgWrapper,
-              ]}
-            >
-              <Text
-                style={[
-                  styles.msgWrapper,
-                  item.isMine ? styles.myMsg : styles.theirMsg,
-                ]}
-              >
-                {item.message}
-              </Text>
-            </View>
+          renderItem={({ item, index }) => (
+            <ChatBubbles data={item} index={index} />
           )}
         ></FlatList>
       </ScreenView>
     </AnimatedScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  messageContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  msgWrapper: {
-    padding: 16,
-    borderRadius: 20,
-  },
-  myMsgWrapper: { alignItems: "flex-end" },
-  myMsg: {
-    backgroundColor: "#FF6B6B",
-    color: "#fff",
-  },
-  theirMsgWrapper: { alignItems: "flex-start" },
-  theirMsg: { backgroundColor: "white" },
-});

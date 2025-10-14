@@ -1,5 +1,4 @@
-import { ScrollView, ScrollViewProps, StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
+import { ScrollView, ScrollViewProps, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ScrollableScreenView({
@@ -9,7 +8,13 @@ export default function ScrollableScreenView({
   const insets = useSafeAreaInsets();
   return (
     <ScrollView
-      style={[styles.container, { paddingTop: insets.top }]}
+      style={[styles.container]}
+      contentContainerStyle={[
+        {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        },
+      ]}
       {...otherProps}
     >
       {children}
