@@ -1,7 +1,7 @@
 import AnimatedScreen from "@/components/animated-screen";
 import { ThemedCard } from "@/components/themed-card";
-import { ArrowLeft, PencilIcon, UserRoundPenIcon } from "lucide-react-native";
-import { StyleSheet, View, Text, Animated } from "react-native";
+import { ArrowLeft, UserRoundPenIcon } from "lucide-react-native";
+import { Animated, StyleSheet, Text, View } from "react-native";
 
 export default function ProfileScreen() {
   return (
@@ -24,7 +24,7 @@ export default function ProfileScreen() {
       </View>
       <Animated.View style={[{ marginVertical: 20, marginHorizontal: 20 }]}>
         <ThemedCard>
-          <Text>Profi</Text>
+          <Text>Profile</Text>
         </ThemedCard>
       </Animated.View>
     </AnimatedScreen>
