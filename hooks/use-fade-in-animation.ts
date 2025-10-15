@@ -14,7 +14,7 @@ interface FadeInOptions {
 }
 
 export const useFadeInAnimation = ({
-  fromScale = 0.9,
+  fromScale = 1,
   duration = 500,
   delay = 0,
 }: FadeInOptions = {}) => {

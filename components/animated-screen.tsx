@@ -9,29 +9,24 @@ import Animated, {
 
 export default function AnimatedScreen({
   children,
-  ...otherProps
 }: ScrollViewProps) {
   const isFocused = useIsFocused();
   const opacity = useSharedValue(0);
-  const translateX = useSharedValue(30);
 
   useEffect(() => {
     if (isFocused) {
       opacity.value = withTiming(1, { duration: 400 });
-      translateX.value = withTiming(0, { duration: 400 });
     } else {
       opacity.value = 0;
-      translateX.value = 30;
     }
   }, [isFocused]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ translateX: translateX.value }],
   }));
 
   return (
-    <Animated.View style={[{ flex: 1}, animatedStyle]}>
+    <Animated.View style={[{ flex: 1}]}>
       {children}
     </Animated.View>
   );

@@ -31,12 +31,23 @@ import Animated from "react-native-reanimated";
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
-  const fadeIn = useFadeInAnimation({ fromScale: 0.9, duration: 400 });
-  const pulse = usePulseAnimation({ scaleTo: 1.1, duration: 600 });
-  const slideInXY = useSlideInAnimation({
-    fromX: 100,
+  const findMatchfadeIn = useFadeInAnimation({
+    fromScale: 0.9,
+    duration: 400,
+    delay: 200,
+  });
+  const quickActionfadeIn = useFadeInAnimation({
+    duration: 400,
+    delay: 300,
+  });
+  const recentActivtyFadeIn = useFadeInAnimation({
+    duration: 400,
+    delay: 400,
+  });
+  const pulse = usePulseAnimation({ scaleTo: 1.1, duration: 400 });
+  const slideInY = useSlideInAnimation({
     fromY: -100,
-    duration: 500,
+    duration: 400,
   });
 
   const recentActivty: recentActivityType[] = [
@@ -65,15 +76,17 @@ export default function HomeScreen() {
   useEffect(() => {
     if (isFocused) {
       // Reset animations whenever you revisit the Home screen
-      fadeIn.reanimate?.();
+      findMatchfadeIn.reanimate?.();
+      quickActionfadeIn.reanimate?.();
+      recentActivtyFadeIn.reanimate?.();
       pulse.reanimate?.();
-      slideInXY.reanimate?.();
+      slideInY.reanimate?.();
     }
   }, [isFocused]);
   return (
     <ScrollableScreenView>
       {/* Home Statistics & Profile */}
-      <Animated.View style={[styles.header, slideInXY.animate]}>
+      <Animated.View style={[styles.header, slideInY.animate]}>
         <LinearGradient
           colors={["rgba(0,0,0,0.1)", "transparent"]}
           style={{
@@ -115,9 +128,12 @@ export default function HomeScreen() {
 
       {/* Find Match Card */}
       <Animated.View
-        style={[{ marginVertical: 20, marginHorizontal: 20 }, fadeIn.animate]}
+        style={[
+          { marginVertical: 20, marginHorizontal: 20 },
+          findMatchfadeIn.animate,
+        ]}
       >
-        <ThemedCard style={{ flex: 1 }}>
+        <ThemedCard>
           <View
             style={{
               display: "flex",
@@ -180,7 +196,7 @@ export default function HomeScreen() {
 
       {/* Quick Actions */}
       <View style={{ marginHorizontal: 20 }}>
-        <Animated.View style={[fadeIn.animate]}>
+        <Animated.View style={[quickActionfadeIn.animate]}>
           <Text style={[styles.heading1, { marginVertical: 20 }]}>
             Quick Actions
           </Text>
@@ -199,7 +215,9 @@ export default function HomeScreen() {
       </View>
 
       {/* Recent Activity */}
-      <Animated.View style={[fadeIn.animate, { marginHorizontal: 20 }]}>
+      <Animated.View
+        style={[recentActivtyFadeIn.animate, { marginHorizontal: 20 }]}
+      >
         <Text style={[styles.heading1, { marginTop: 20, marginBottom: 10 }]}>
           Recent Activity
         </Text>
