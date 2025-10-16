@@ -1,14 +1,16 @@
 import AnimatedScreen from "@/components/animated-screen";
 import { Card } from "@/components/card";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
-import { ThemedCard } from "@/components/themed-card";
+import { StyledCard } from "@/components/styled-card";
 import Avatar from "@/components/ui/avatar";
 import Pill from "@/components/ui/pill";
 import ToggleSwitch from "@/components/ui/toggle-swtich";
 import { Colors } from "@/constants/theme";
 import { SETTING_CTA } from "@/types/enums";
+import { LinearGradient } from "expo-linear-gradient";
 import {
   ArrowLeft,
+  ArrowRight,
   BellIcon,
   Heart,
   LogOutIcon,
@@ -22,13 +24,13 @@ import {
   Users2,
 } from "lucide-react-native";
 import { ReactNode, useEffect, useState } from "react";
-import { Animated, StyleSheet, Switch, Text, View } from "react-native";
+import { Animated, StyleSheet, Text, View } from "react-native";
 
 type settingListDataType = {
   icon: ReactNode;
   label: string;
   subLabel: string;
-  cta: "toggle" | "button";
+  cta: string | ReactNode;
   value?: boolean;
 };
 export default function ProfileScreen() {
@@ -53,19 +55,28 @@ export default function ProfileScreen() {
         icon: <ShieldIcon size={20} />,
         label: "Privacy & Security",
         subLabel: "Manage your account’s privacy settings",
-        cta: "button",
+        cta: <ArrowRight size={18} color="#aaa" />,
       },
       {
         icon: <StarIcon size={20} />,
         label: "Get Premium",
         subLabel: "Unlock exclusive features and boosts",
-        cta: "button",
+        cta: (
+          <LinearGradient
+            colors={["#FF6B6B", "#FFD93D"]}
+            style={styles.getPremiumButton}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          >
+            <Text style={styles.getPremiumButtonText}>Upgrade</Text>
+          </LinearGradient>
+        ),
       },
       {
         icon: <LogOutIcon size={20} />,
         label: "Sign Out",
         subLabel: "Log out of your account",
-        cta: "button",
+        cta: <LogOutIcon size={18} color="#aaa" />,
       },
     ]
   );
@@ -95,7 +106,7 @@ export default function ProfileScreen() {
 
         {/* Profile Card */}
         <Animated.View style={styles.cardContainer}>
-          <ThemedCard>
+          <StyledCard>
             {/* Avatar + Name + Location */}
             <View style={styles.profileHeader}>
               <Avatar uri={uri} size={80} />
@@ -166,7 +177,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
             </View>
-          </ThemedCard>
+          </StyledCard>
         </Animated.View>
         <Animated.View style={styles.cardContainer}>
           <Card>
@@ -216,6 +227,7 @@ export default function ProfileScreen() {
                         }
                       ></ToggleSwitch>
                     )}
+                    {item.cta !== SETTING_CTA.TOGGLE && item.cta}
                   </View>
                 </View>
               ))}
@@ -308,8 +320,17 @@ const styles = StyleSheet.create({
   settingsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    alignItems: 'center',
+    alignItems: "center",
     gap: 10,
   },
   settingItemListContainer: {},
+  getPremiumButton: {
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  getPremiumButtonText: {
+    color: "#fff",
+  },
 });

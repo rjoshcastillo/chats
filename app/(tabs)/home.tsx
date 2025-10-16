@@ -1,8 +1,7 @@
-import AnimatedScreen from "@/components/animated-screen";
 import QuickActionItem from "@/components/molecules/home/quick-action-item";
 import RecentActivityItem from "@/components/molecules/home/recent-activity-item";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
-import { ThemedCard } from "@/components/themed-card";
+import { StyledCard } from "@/components/styled-card";
 import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
@@ -133,7 +132,7 @@ export default function HomeScreen() {
           findMatchfadeIn.animate,
         ]}
       >
-        <ThemedCard style={{ padding: 16}}>
+        <StyledCard style={{ padding: 16 }}>
           <View
             style={{
               display: "flex",
@@ -191,7 +190,7 @@ export default function HomeScreen() {
               </Pressable>
             </Animated.View>
           </View>
-        </ThemedCard>
+        </StyledCard>
       </Animated.View>
 
       {/* Quick Actions */}

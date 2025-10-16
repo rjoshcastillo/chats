@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
 import Animated from "react-native-reanimated";
 
-export function ThemedCard({ style, children, ...otherProps }: ViewProps) {
+export function StyledCard({ style, children, ...otherProps }: ViewProps) {
   const pulse = usePulseAnimation({ scaleTo: 1.1, duration: 600, delay: 300 });
   return (
     <LinearGradient
