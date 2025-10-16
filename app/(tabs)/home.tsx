@@ -133,7 +133,7 @@ export default function HomeScreen() {
           findMatchfadeIn.animate,
         ]}
       >
-        <ThemedCard>
+        <ThemedCard style={{ padding: 16}}>
           <View
             style={{
               display: "flex",

@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     overflow: "hidden",
-    padding: 16,
     minHeight: 250,
   },
   decoration: {
