@@ -31,7 +31,7 @@ export const useFadeInAnimation = ({
         duration,
         easing: Easing.out(Easing.ease),
       });
-      scale.value = withSpring(1, { damping: 12, stiffness: 100 });
+      scale.value = withSpring(1, { damping: 50, stiffness: 2000 });
     };
 
     if (delay) {

@@ -11,7 +11,7 @@ import { useIsFocused } from "@react-navigation/native";
 const ChatItemList = ({ item, index }: chatItemsType) => {
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
-    duration: 400,
+    duration: 200,
     delay: index * 100,
   });
   const isFocused = useIsFocused();

@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     overflow: "hidden",
     minHeight: 250,
+    elevation: 6 //For android
   },
   decoration: {
     position: "absolute",
