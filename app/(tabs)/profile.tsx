@@ -24,7 +24,7 @@ import {
   Users2,
 } from "lucide-react-native";
 import { ReactNode, useEffect, useState } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
 type settingListDataType = {
   icon: ReactNode;
@@ -179,6 +179,20 @@ export default function ProfileScreen() {
             </View>
           </StyledCard>
         </Animated.View>
+
+        {/* Pictures */}
+        <Animated.View style={styles.cardContainer}>
+          <Card>
+            <View style={styles.settingsContainer}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <SettingsIcon size={20} />
+                <Text style={{ fontSize: 18, fontWeight: 600 }}>Pictures</Text>
+              </View>
+              <Pressable>View more</Pressable>
+            </View>
+          </Card>
+        </Animated.View>
+        {/* Settings */}
         <Animated.View style={styles.cardContainer}>
           <Card>
             <View style={styles.settingsContainer}>
@@ -321,6 +335,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
+    justifyContent: "space-between",
     gap: 10,
   },
   settingItemListContainer: {},

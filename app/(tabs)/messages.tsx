@@ -119,6 +119,7 @@ export default function MessagesScreen() {
           </View>
         </View>
         <FlatList
+          style={{ flexDirection: "column-reverse" }}
           data={conversation}
           renderItem={({ item, index }) => (
             <ChatBubbles data={item} index={index} />
