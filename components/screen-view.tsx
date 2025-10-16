@@ -8,7 +8,7 @@ export default function ScreenView({
   const insets = useSafeAreaInsets();
   return (
     <View
-      style={[styles.container, { paddingTop: insets.top }]}
+      style={[styles.container]}
       {...otherProps}
     >
       {children}

@@ -11,7 +11,6 @@ export default function ScrollableScreenView({
       style={[styles.container]}
       contentContainerStyle={[
         {
-          paddingTop: insets.top,
           paddingBottom: insets.bottom,
         },
       ]}

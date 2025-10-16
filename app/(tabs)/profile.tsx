@@ -4,7 +4,9 @@ import ScrollableScreenView from "@/components/scrollable-screen-view";
 import { ThemedCard } from "@/components/themed-card";
 import Avatar from "@/components/ui/avatar";
 import Pill from "@/components/ui/pill";
+import ToggleSwitch from "@/components/ui/toggle-swtich";
 import { Colors } from "@/constants/theme";
+import { SETTING_CTA } from "@/types/enums";
 import {
   ArrowLeft,
   BellIcon,
@@ -19,38 +21,68 @@ import {
   UserRoundPenIcon,
   Users2,
 } from "lucide-react-native";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { ReactNode, useEffect, useState } from "react";
+import { Animated, StyleSheet, Switch, Text, View } from "react-native";
 
+type settingListDataType = {
+  icon: ReactNode;
+  label: string;
+  subLabel: string;
+  cta: "toggle" | "button";
+  value?: boolean;
+};
 export default function ProfileScreen() {
   const uri = "https://randomuser.me/api/portraits/men/1.jpg";
+  const [settingListData, setSettingListData] = useState<settingListDataType[]>(
+    [
+      {
+        icon: <BellIcon size={20} />,
+        label: "Notifications",
+        subLabel: "Get notified about matches and messages",
+        cta: "toggle",
+        value: false,
+      },
+      {
+        icon: <MoonIcon size={20} />,
+        label: "Dark Mode",
+        subLabel: "Switch between light and dark themes",
+        cta: "toggle",
+        value: false,
+      },
+      {
+        icon: <ShieldIcon size={20} />,
+        label: "Privacy & Security",
+        subLabel: "Manage your account’s privacy settings",
+        cta: "button",
+      },
+      {
+        icon: <StarIcon size={20} />,
+        label: "Get Premium",
+        subLabel: "Unlock exclusive features and boosts",
+        cta: "button",
+      },
+      {
+        icon: <LogOutIcon size={20} />,
+        label: "Sign Out",
+        subLabel: "Log out of your account",
+        cta: "button",
+      },
+    ]
+  );
 
-  const settingListData = [
-    {
-      icon: <BellIcon size={20} />,
-      label: "Notifications",
-      subLabel: "Get notified about matches and messages",
-    },
-    {
-      icon: <MoonIcon size={20} />,
-      label: "Dark Mode",
-      subLabel: "Switch between light and dark themes",
-    },
-    {
-      icon: <ShieldIcon size={20} />,
-      label: "Privacy & Security",
-      subLabel: "Manage your account’s privacy settings",
-    },
-    {
-      icon: <StarIcon size={20} />,
-      label: "Get Premium",
-      subLabel: "Unlock exclusive features and boosts",
-    },
-    {
-      icon: <LogOutIcon size={20} />,
-      label: "Sign Out",
-      subLabel: "Log out of your account",
-    },
-  ];
+  const onSettingValueChange = (
+    item: settingListDataType,
+    newValue: boolean
+  ) => {
+    setSettingListData((prev) =>
+      prev.map((setting) =>
+        setting.label === item.label ? { ...setting, value: newValue } : setting
+      )
+    );
+  };
+  useEffect(() => {
+    console.log("Updated settings:", settingListData);
+  }, [settingListData]);
   return (
     <ScrollableScreenView>
       <AnimatedScreen>
@@ -140,7 +172,7 @@ export default function ProfileScreen() {
           <Card>
             <View style={styles.settingsContainer}>
               <SettingsIcon size={20} />
-              <Text style={{ fontSize: 18, fontWeight: 600}}>Settings</Text>
+              <Text style={{ fontSize: 18, fontWeight: 600 }}>Settings</Text>
             </View>
             <View style={{ paddingVertical: 25, gap: 30 }}>
               {settingListData.map((item, index) => (
@@ -149,26 +181,41 @@ export default function ProfileScreen() {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: 10,
+                    justifyContent: "space-between",
                   }}
                 >
-                  <View
-                    style={{
-                      backgroundColor: "#eee",
-                      width: 40,
-                      height: 40,
-                      borderRadius: 50,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    {item.icon}
+                  <View style={{ flexDirection: "row", gap: 10 }}>
+                    <View
+                      style={{
+                        backgroundColor: "#eee",
+                        width: 40,
+                        height: 40,
+                        borderRadius: 50,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {item.icon}
+                    </View>
+                    <View style={{ flexShrink: 1 }}>
+                      <View>
+                        <Text style={{ fontSize: 16 }}>{item.label}</Text>
+                        <Text style={{ color: "#aaa", fontSize: 14 }}>
+                          {item.subLabel}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
-                  <View style={{ flexShrink: 1 }}>
-                    <Text style={{ fontSize: 16 }}>{item.label}</Text>
-                    <Text style={{ color: "#aaa", fontSize: 14 }}>
-                      {item.subLabel}
-                    </Text>
+                  <View>
+                    {item.cta === SETTING_CTA.TOGGLE && (
+                      <ToggleSwitch
+                        key={item.label}
+                        value={item?.value ?? false}
+                        onValueChange={(value) =>
+                          onSettingValueChange(item, value)
+                        }
+                      ></ToggleSwitch>
+                    )}
                   </View>
                 </View>
               ))}
@@ -237,7 +284,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 100,
     borderRadius: 10,
-    marginVertical: 20
+    marginVertical: 20,
   },
   statValue: {
     fontWeight: "600",
@@ -261,9 +308,8 @@ const styles = StyleSheet.create({
   settingsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    alignItems: 'center',
     gap: 10,
   },
-  settingItemListContainer: {
-
-  }
+  settingItemListContainer: {},
 });
