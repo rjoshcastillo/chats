@@ -1,7 +1,10 @@
+import { AnimatedThemedView } from "@/components/animated-themed-view";
 import QuickActionItem from "@/components/molecules/home/quick-action-item";
 import RecentActivityItem from "@/components/molecules/home/recent-activity-item";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
 import { StyledCard } from "@/components/styled-card";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
 import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
@@ -22,7 +25,6 @@ import {
   FlatList,
   Pressable,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -85,7 +87,7 @@ export default function HomeScreen() {
   return (
     <ScrollableScreenView>
       {/* Home Statistics & Profile */}
-      <Animated.View style={[styles.header, slideInY.animate]}>
+      <AnimatedThemedView style={[styles.header, slideInY.animate]}>
         <LinearGradient
           colors={["rgba(0,0,0,0.1)", "transparent"]}
           style={{
@@ -96,34 +98,34 @@ export default function HomeScreen() {
             height: 10,
           }}
         />
-        <View style={styles.headerInner}>
-          <View>
-            <Text style={styles.heading1}>Hey There!</Text>
-            <Text style={styles.heading3}>Hey, This is the subtitle?</Text>
-          </View>
+        <ThemedView style={styles.headerInner}>
+          <ThemedView>
+            <ThemedText type="title">Hey There!</ThemedText>
+            <ThemedText type="subtitle">Hey, This is the subtitle?</ThemedText>
+          </ThemedView>
 
           <TouchableOpacity style={styles.buttonAvatar}>
             <User2 size={24} color={"white"} />
           </TouchableOpacity>
-        </View>
-        <View style={styles.headerStatsContainer}>
-          <View style={styles.headerStatsBox}>
+        </ThemedView>
+        <ThemedView style={styles.headerStatsContainer}>
+          <ThemedView style={styles.headerStatsBox}>
             <Heart color={Colors["--red-500"]} />
-            <Text style={{ fontWeight: "600" }}>34</Text>
-            <Text style={{ fontSize: 12, color: "#666" }}>Total Matches</Text>
-          </View>
-          <View style={styles.headerStatsBox}>
+            <ThemedText type="defaultSemiBold">34</ThemedText>
+            <ThemedText type="subtitle">Total Matches</ThemedText>
+          </ThemedView>
+          <ThemedView style={styles.headerStatsBox}>
             <MessageCircle color={Colors["--blue-500"]} />
-            <Text style={{ fontWeight: "600" }}>7</Text>
-            <Text style={{ fontSize: 12, color: "#666" }}>Active Chats</Text>
-          </View>
-          <View style={styles.headerStatsBox}>
+            <ThemedText type="defaultSemiBold">7</ThemedText>
+            <ThemedText type="subtitle">Active Chats</ThemedText>
+          </ThemedView>
+          <ThemedView style={styles.headerStatsBox}>
             <Users2 color={Colors["--green-500"]} />
-            <Text style={{ fontWeight: "600" }}>2.3k</Text>
-            <Text style={{ fontSize: 12, color: "#666" }}>Profile Views</Text>
-          </View>
-        </View>
-      </Animated.View>
+            <ThemedText type="defaultSemiBold">2.3k</ThemedText>
+            <ThemedText type="subtitle">Profile Views</ThemedText>
+          </ThemedView>
+        </ThemedView>
+      </AnimatedThemedView>
 
       {/* Find Match Card */}
       <Animated.View
@@ -154,7 +156,7 @@ export default function HomeScreen() {
               <Zap color="#fff" size={25} />
             </View>
             <View style={{ padding: 10, gap: 10, marginBottom: 20 }}>
-              <Text
+              <ThemedText
                 style={{
                   fontSize: 22,
                   textAlign: "center",
@@ -163,13 +165,13 @@ export default function HomeScreen() {
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit
-              </Text>
-              <Text
+              </ThemedText>
+              <ThemedText
                 style={{ textAlign: "center", color: "#eee", fontSize: 18 }}
               >
                 Excepteur sint occaecat cupidatat non proident, sunt in culpa
                 qui officia deserunt mollit anim id est laborum
-              </Text>
+              </ThemedText>
             </View>
             <Animated.View style={[pulse.animate]}>
               <Pressable
@@ -186,7 +188,9 @@ export default function HomeScreen() {
                   },
                 ]}
               >
-                <Text style={{ color: "#fff", fontWeight: "600" }}>Find</Text>
+                <ThemedText style={{ color: "#fff", fontWeight: "600" }}>
+                  Find
+                </ThemedText>
               </Pressable>
             </Animated.View>
           </View>
@@ -194,11 +198,11 @@ export default function HomeScreen() {
       </Animated.View>
 
       {/* Quick Actions */}
-      <View style={{ marginHorizontal: 20 }}>
+      <ThemedView style={{ marginHorizontal: 20 }}>
         <Animated.View style={[quickActionfadeIn.animate]}>
-          <Text style={[styles.heading1, { marginVertical: 20 }]}>
+          <ThemedText  type="defaultSemiBold" style={[{ marginVertical: 20 }]}>
             Quick Actions
-          </Text>
+          </ThemedText>
           <View
             style={{
               flexDirection: "row",
@@ -211,15 +215,18 @@ export default function HomeScreen() {
             ))}
           </View>
         </Animated.View>
-      </View>
+      </ThemedView>
 
       {/* Recent Activity */}
       <Animated.View
         style={[recentActivtyFadeIn.animate, { marginHorizontal: 20 }]}
       >
-        <Text style={[styles.heading1, { marginTop: 20, marginBottom: 10 }]}>
+        <ThemedText
+          type="defaultSemiBold"
+          style={[{ marginTop: 20, marginBottom: 10 }]}
+        >
           Recent Activity
-        </Text>
+        </ThemedText>
         <FlatList
           scrollEnabled={false}
           data={recentActivty}
@@ -235,9 +242,8 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingVertical: 20,
+    paddingVertical: 30,
     paddingHorizontal: 20,
-    height: 185,
     position: "relative",
   },
   headerInner: {
@@ -257,14 +263,6 @@ const styles = StyleSheet.create({
     display: "flex",
     gap: 3,
     alignItems: "center",
-  },
-  heading1: {
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  heading3: {
-    color: "#666",
-    fontSize: 14,
   },
   buttonAvatar: {
     backgroundColor: "red",

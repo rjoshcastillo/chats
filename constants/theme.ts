@@ -12,6 +12,8 @@ export const Colors = {
   light: {
     text: '#11181C',
     background: '#fff',
+    background_600: '#f5f5f5',
+    //TODOS: ADD MORE COLOR HERE
     tint: tintColorLight,
     icon: '#0371c5ff',
     tabIconDefault: '#687076',
@@ -21,6 +23,7 @@ export const Colors = {
   dark: {
     text: '#eeeceeff',
     background: '#2b2b2cff',
+    background_600: '#4a4a4aff',
     tint: tintColorDark,
     icon: '#0371c5ff',
     tabIconDefault: '#5e5e5eff',
@@ -32,3 +35,23 @@ export const Colors = {
   '--green-500': '#1DD1A1',
 };
 
+export const Fonts = Platform.select({
+  ios: {
+    sans: "QuicksandRegular",
+    serif: "QuicksandRegular",
+    rounded: "QuicksandMedium",
+    mono: "QuicksandBold",
+  },
+  android: {
+    sans: "QuicksandRegular",
+    serif: "QuicksandRegular",
+    rounded: "QuicksandMedium",
+    mono: "QuicksandBold",
+  },
+  web: {
+    sans: "QuicksandRegular, sans-serif",
+    serif: "QuicksandRegular, serif",
+    rounded: "QuicksandMedium, sans-serif",
+    mono: "QuicksandBold, monospace",
+  },
+});

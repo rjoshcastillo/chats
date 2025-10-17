@@ -1,5 +1,6 @@
 import { ScrollView, ScrollViewProps, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ThemedScrollView } from "./themed-scroll-view";
 
 export default function ScrollableScreenView({
   children,
@@ -7,7 +8,7 @@ export default function ScrollableScreenView({
 }: ScrollViewProps) {
   const insets = useSafeAreaInsets();
   return (
-    <ScrollView
+    <ThemedScrollView
       style={[styles.container]}
       contentContainerStyle={[
         {
@@ -17,13 +18,12 @@ export default function ScrollableScreenView({
       {...otherProps}
     >
       {children}
-    </ScrollView>
+    </ThemedScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
     flex: 1,
   },
 });

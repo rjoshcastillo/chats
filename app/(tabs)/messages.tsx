@@ -4,9 +4,15 @@ import ScreenView from "@/components/screen-view";
 import Avatar from "@/components/ui/avatar";
 import { conversationDataType, conversationItemType } from "@/types/common";
 import { format } from "date-fns";
-import { ArrowLeft, EllipsisVertical } from "lucide-react-native";
+import {
+  ArrowLeft,
+  EllipsisVertical,
+  SendHorizonal,
+  SendIcon,
+  SmileIcon,
+} from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, TextInput, View } from "react-native";
 
 export default function MessagesScreen() {
   const [conversation, setConversation] = useState<conversationDataType[]>();
@@ -134,6 +140,22 @@ export default function MessagesScreen() {
             <ChatBubbles data={item} index={index} />
           )}
         ></FlatList>
+        <View style={{ padding: 10, flexDirection: "row", gap: 10 }}>
+          <TextInput
+            style={{
+              flex: 1,
+              padding: 12,
+              borderRadius: 50,
+              borderWidth: 1,
+              borderColor: "#eee",
+            }}
+            placeholder="Type here..."
+          />
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <SmileIcon color="#fff" fill="#FF6B6B" size={24} />
+            <SendHorizonal color="#FF6B6B" fill="#fff" size={24} />
+          </View>
+        </View>
       </ScreenView>
     </AnimatedScreen>
   );

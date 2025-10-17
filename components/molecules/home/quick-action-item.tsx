@@ -1,3 +1,4 @@
+import { ThemedPressable } from "@/components/themed-pressable";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { quickActionItemType } from "@/types/common";
 import { useIsFocused } from "@react-navigation/native";
@@ -26,7 +27,7 @@ export default function QuickActionItem({ item, index }: quickActionItemType) {
   }, [isFocused]);
   return (
     <Animated.View key={index} style={[fadeIn.animate]}>
-      <Pressable
+      <ThemedPressable
         onPress={() => {
           alert(item.label);
         }}
@@ -34,14 +35,11 @@ export default function QuickActionItem({ item, index }: quickActionItemType) {
           {
             width: ITEM_WIDTH - 10,
             flexDirection: "row",
-            backgroundColor: "#fff",
             height: 70,
-            borderWidth: 2,
             borderRadius: 10,
             paddingHorizontal: 20,
             gap: 10,
             alignItems: "center",
-            borderColor: pressed ? "#FFD93D" : "#eee",
           },
         ]}
       >
@@ -58,7 +56,7 @@ export default function QuickActionItem({ item, index }: quickActionItemType) {
           <item.icon color="#343434ff" size={18} />
         </View>
         <Text>{item.label}</Text>
-      </Pressable>
+      </ThemedPressable>
     </Animated.View>
   );
 }

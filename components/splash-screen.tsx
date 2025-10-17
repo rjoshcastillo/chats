@@ -27,9 +27,21 @@ export default function SplashScreen() {
   return (
     <StyledCard style={{ borderRadius: 0, flex: 1 }}>
       <View style={styles.container}>
-        <Animated.View style={[pulse.animate]}>
-          <Heart fill="#fff" size={60} color="#fff" />
-        </Animated.View>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 50,
+            width: 70,
+            height: 70,
+            backgroundColor: "rgba(255,255,255, 0.3)",
+            marginBottom: 10,
+          }}
+        >
+          <Animated.View style={[pulse.animate]}>
+            <Heart fill="#fff" size={40} color="#fff" />
+          </Animated.View>
+        </View>
         <Text style={[styles.title]}>Affiny</Text>
         <Text style={styles.label}>More than a match — it’s Affiny.</Text>
         <View style={{ flexDirection: "row", marginTop: 20, gap: 4 }}>
