@@ -1,5 +1,5 @@
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
-import { chatItemsType } from "@/types/common";
+import { matchesItemType } from "@/types/common";
 import { MessageCircle } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
@@ -8,7 +8,7 @@ import Pill from "../../ui/pill";
 import { useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 
-const ChatItemList = ({ item, index }: chatItemsType) => {
+const ChatItemList = ({ item, index }: matchesItemType) => {
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
     duration: 200,

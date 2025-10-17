@@ -1,15 +1,24 @@
-export type quickActionType = {
+export type quickActionDataType = {
   label: string;
   link: string;
   icon: any;
 };
-export type recentActivityType = {
+
+export type quickActionItemType = {
+  item: quickActionDataType;
+  index: number;
+};
+export type recentActivityDataType = {
   id: string;
   activity: string;
   date: string;
 };
+export type recentActivityItemType = {
+  item: recentActivityDataType;
+  index: number;
+};
 
-export type chatDataType = {
+export type matchesDataType = {
   name: string;
   status: string;
   time: string;
@@ -17,16 +26,18 @@ export type chatDataType = {
   interests: Array<string>;
   avatar: string;
 };
-export type chatItemsType = {
-  item: chatDataType;
+export type matchesItemType = {
+  item: matchesDataType;
   index: number;
 };
 
-export type recentActivityItemType = {
-  item: recentActivityType;
-  index: number;
+export type conversationDataType = {
+  avatar: string;
+  isMine: boolean;
+  message: string;
+  timestamp: string;
 };
-export type quickActionItemType = {
-  item: quickActionType;
+export type conversationItemType = {
+  item: conversationDataType;
   index: number;
 };

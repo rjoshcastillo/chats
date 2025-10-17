@@ -1,5 +1,5 @@
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
-import { quickActionItemType, quickActionType } from "@/types/common";
+import { quickActionItemType } from "@/types/common";
 import { useIsFocused } from "@react-navigation/native";
 import { Heart, Star, User2 } from "lucide-react-native";
 import { useEffect } from "react";

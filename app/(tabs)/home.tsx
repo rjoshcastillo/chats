@@ -6,7 +6,7 @@ import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
-import { quickActionType, recentActivityType } from "@/types/common";
+import { quickActionDataType, recentActivityDataType } from "@/types/common";
 import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -49,7 +49,7 @@ export default function HomeScreen() {
     duration: 400,
   });
 
-  const recentActivty: recentActivityType[] = [
+  const recentActivty: recentActivityDataType[] = [
     { id: "12", activity: "Josh has visited your profile", date: "2 mins ago" },
     {
       id: "1",
@@ -67,7 +67,7 @@ export default function HomeScreen() {
       date: "32 mins ago",
     },
   ];
-  const actions: quickActionType[] = [
+  const actions: quickActionDataType[] = [
     { label: "Matches", link: "/matches", icon: Heart },
     { label: "Profile", link: "/profile", icon: User2 },
     { label: "Premium", link: "/premium", icon: Star },

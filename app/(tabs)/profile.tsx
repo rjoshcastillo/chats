@@ -13,6 +13,7 @@ import {
   ArrowRight,
   BellIcon,
   Heart,
+  ImageIcon,
   LogOutIcon,
   MapPin,
   MessageCircle,
@@ -24,7 +25,14 @@ import {
   Users2,
 } from "lucide-react-native";
 import { ReactNode, useEffect, useState } from "react";
-import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Animated,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 type settingListDataType = {
   icon: ReactNode;
@@ -40,27 +48,27 @@ export default function ProfileScreen() {
       {
         icon: <BellIcon size={20} />,
         label: "Notifications",
-        subLabel: "Get notified about matches and messages",
+        subLabel: "Allow in-app notifications",
         cta: "toggle",
         value: false,
       },
       {
         icon: <MoonIcon size={20} />,
         label: "Dark Mode",
-        subLabel: "Switch between light and dark themes",
+        subLabel: "Switch to dark themes",
         cta: "toggle",
         value: false,
       },
       {
         icon: <ShieldIcon size={20} />,
         label: "Privacy & Security",
-        subLabel: "Manage your account’s privacy settings",
+        subLabel: "Manage your account’s privacy",
         cta: <ArrowRight size={18} color="#aaa" />,
       },
       {
         icon: <StarIcon size={20} />,
         label: "Get Premium",
-        subLabel: "Unlock exclusive features and boosts",
+        subLabel: "Unlock exclusive features",
         cta: (
           <LinearGradient
             colors={["#FF6B6B", "#FFD93D"]}
@@ -80,6 +88,15 @@ export default function ProfileScreen() {
       },
     ]
   );
+
+  const images = [
+    "https://randomuser.me/api/portraits/men/1.jpg",
+    "https://randomuser.me/api/portraits/women/2.jpg",
+    "https://randomuser.me/api/portraits/men/3.jpg",
+    "https://randomuser.me/api/portraits/women/4.jpg",
+    "https://randomuser.me/api/portraits/men/5.jpg",
+    "https://randomuser.me/api/portraits/women/6.jpg",
+  ];
 
   const onSettingValueChange = (
     item: settingListDataType,
@@ -183,12 +200,25 @@ export default function ProfileScreen() {
         {/* Pictures */}
         <Animated.View style={styles.cardContainer}>
           <Card>
-            <View style={styles.settingsContainer}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <SettingsIcon size={20} />
+            <View
+              style={[
+                styles.settingsContainer,
+                { justifyContent: "space-between" },
+              ]}
+            >
+              <View style={styles.settingsContainer}>
+                <ImageIcon size={20} />
                 <Text style={{ fontSize: 18, fontWeight: 600 }}>Pictures</Text>
               </View>
-              <Pressable>View more</Pressable>
+              <Pressable>
+                <Text style={{ color: "#1565C0" }}>View more</Text>
+              </Pressable>
+            </View>
+
+            <View style={styles.gallery}>
+              {images.map((uri, index) => (
+                <Image key={index} source={{ uri }} style={styles.image} />
+              ))}
             </View>
           </Card>
         </Animated.View>
@@ -335,7 +365,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
-    justifyContent: "space-between",
     gap: 10,
   },
   settingItemListContainer: {},
@@ -347,5 +376,16 @@ const styles = StyleSheet.create({
   },
   getPremiumButtonText: {
     color: "#fff",
+  },
+  gallery: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 20,
+    gap: 10,
+  },
+  image: {
+    width: "30%",
+    height: 80,
+    borderRadius: 10,
   },
 });

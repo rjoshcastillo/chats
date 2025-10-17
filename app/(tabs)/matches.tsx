@@ -3,14 +3,14 @@ import ChatItemList from "@/components/molecules/matches/chat-items-list";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
 import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
-import { chatDataType } from "@/types/common";
+import { matchesDataType } from "@/types/common";
 import { LinearGradient } from "expo-linear-gradient";
 import { MessageCircle } from "lucide-react-native";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
 export default function MatchesScreen() {
-  const chatData: chatDataType[] = [
+  const chatData: matchesDataType[] = [
     {
       name: "Josh",
       status: "Active",

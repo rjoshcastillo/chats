@@ -1,5 +1,6 @@
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { useIsFocused } from "@react-navigation/native";
+import { format } from "date-fns";
 import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
@@ -27,6 +28,23 @@ export default function ChatBubbles({ data, index }: ChatBubblesDataType) {
     //   fadeIn.reanimate?.();
     // }
   }, [isFocused]);
+
+  const MessageTimeStamp = () => {
+    const formatted = format(new Date(data.timestamp), "EEE 'at' h:mm a");
+    return (
+      <Text
+        style={{
+          position: "absolute",
+          bottom: 5,
+          right: 15,
+          color: "#FFD93D",
+          fontSize: 12,
+        }}
+      >
+        {formatted}
+      </Text>
+    );
+  };
   return (
     <View
       style={[
@@ -34,15 +52,20 @@ export default function ChatBubbles({ data, index }: ChatBubblesDataType) {
         isMine ? styles.myMsgWrapper : styles.theirMsgWrapper,
       ]}
     >
-      <Animated.Text
+      <Animated.View
         style={[
           fadeIn.animate,
           styles.msgWrapper,
           isMine ? styles.myMsg : styles.theirMsg,
         ]}
       >
-        {message}
-      </Animated.Text>
+        <Text
+          style={{ color: isMine ? styles.myMsg.color : styles.theirMsg.color }}
+        >
+          {message}
+        </Text>
+        <MessageTimeStamp />
+      </Animated.View>
     </View>
   );
 }
@@ -54,8 +77,10 @@ const styles = StyleSheet.create({
   },
   msgWrapper: {
     padding: 16,
+    paddingBottom: 25,
     borderRadius: 20,
     width: "80%",
+    position: "relative",
   },
   myMsgWrapper: { alignItems: "flex-end" },
   myMsg: {
@@ -63,5 +88,5 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   theirMsgWrapper: { alignItems: "flex-start" },
-  theirMsg: { backgroundColor: "#fff", borderWidth: 1, borderColor: '#eee' },
+  theirMsg: { backgroundColor: "#fff", color: "#000" },
 });
