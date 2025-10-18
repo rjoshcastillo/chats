@@ -181,13 +181,12 @@ export default function HomeScreen() {
                   color: "#fff",
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                This could be your 10-minute spark
               </ThemedText>
               <ThemedText
                 style={{ textAlign: "center", color: "#eee", fontSize: 18 }}
               >
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum
+                Connect with someone new and discover if there's chemistry in just 10 minutes.
               </ThemedText>
             </View>
             <Animated.View style={[pulse.animate]}>
@@ -206,7 +205,7 @@ export default function HomeScreen() {
                 ]}
               >
                 <ThemedText style={{ color: "#fff", fontWeight: "600" }}>
-                  Find
+                  Find Match
                 </ThemedText>
               </Pressable>
             </Animated.View>
@@ -236,7 +235,7 @@ export default function HomeScreen() {
 
       {/* Recent Activity */}
       <Animated.View
-        style={[recentActivtyFadeIn.animate, { marginHorizontal: 20 }]}
+        style={[recentActivtyFadeIn.animate, { marginHorizontal: 20, marginVertical: 10 }]}
       >
         <ThemedText
           type="defaultSemiBold"

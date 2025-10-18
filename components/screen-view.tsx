@@ -1,24 +1,29 @@
+import { Colors } from "@/constants/theme";
+import { useThemeStore } from "@/stores/themeStore";
 import { StyleSheet, View, ViewProps } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
-export default function ScreenView({
-  children,
-  ...otherProps
-}: ViewProps) {
+export default function ScreenView({ children, ...otherProps }: ViewProps) {
   const insets = useSafeAreaInsets();
+  const { theme } = useThemeStore();
   return (
-    <View
-      style={[styles.container]}
-      {...otherProps}
+    <SafeAreaView
+      edges={["top"]}
+      style={[styles.root, { backgroundColor: Colors[theme].background }]}
     >
       {children}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   container: {
-    backgroundColor: "#fff",
     flex: 1,
   },
 });

@@ -1,21 +1,34 @@
 import AnimatedScreen from "@/components/animated-screen";
 import ChatBubbles from "@/components/molecules/messages/chat-bubbles";
 import ScreenView from "@/components/screen-view";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
-import { conversationDataType, conversationItemType } from "@/types/common";
-import { format } from "date-fns";
+import { Colors } from "@/constants/theme";
+import { useThemeStore } from "@/stores/themeStore";
+import { ConversationDataType } from "@/types/common";
 import {
   ArrowLeft,
   EllipsisVertical,
   SendHorizonal,
-  SendIcon,
   SmileIcon,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { FlatList, Text, TextInput, View } from "react-native";
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function MessagesScreen() {
-  const [conversation, setConversation] = useState<conversationDataType[]>();
+  const [conversation, setConversation] = useState<ConversationDataType[]>();
+  const { theme } = useThemeStore();
+  const insets = useSafeAreaInsets();
+
   useEffect(() => {
     setConversation([
       {
@@ -83,10 +96,11 @@ export default function MessagesScreen() {
       },
     ]);
   }, []);
+
   return (
-    <AnimatedScreen>
-      <ScreenView>
-        <View
+    <ScreenView>
+      <AnimatedScreen>
+        <ThemedView
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -99,13 +113,15 @@ export default function MessagesScreen() {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <ArrowLeft color="#555" />
+            <ArrowLeft color={Colors[theme].tint} />
             <Avatar
               uri="https://randomuser.me/api/portraits/men/9.jpg"
               size={45}
             />
             <View>
-              <Text style={{ fontWeight: 600, fontSize: 16 }}>John Doe</Text>
+              <ThemedText style={{ fontWeight: 600, fontSize: 16 }}>
+                John Doe
+              </ThemedText>
               <Text style={{ color: "rgba(24, 197, 99, 1)" }}>Online</Text>
             </View>
           </View>
@@ -126,37 +142,49 @@ export default function MessagesScreen() {
             >
               <Text style={{ color: "rgba(255, 255, 255, 1)" }}>09:20</Text>
             </View>
-            <EllipsisVertical color="#555" />
+            <EllipsisVertical color={Colors[theme].tint} />
           </View>
-        </View>
-        <FlatList
-          inverted
-          keyExtractor={(_, index) => index.toString()}
-          data={conversation?.sort(
-            (a, b) =>
-              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-          )}
-          renderItem={({ item, index }) => (
-            <ChatBubbles data={item} index={index} />
-          )}
-        ></FlatList>
-        <View style={{ padding: 10, flexDirection: "row", gap: 10 }}>
-          <TextInput
-            style={{
-              flex: 1,
-              padding: 12,
-              borderRadius: 50,
-              borderWidth: 1,
-              borderColor: "#eee",
-            }}
-            placeholder="Type here..."
-          />
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <SmileIcon color="#fff" fill="#FF6B6B" size={24} />
-            <SendHorizonal color="#FF6B6B" fill="#fff" size={24} />
-          </View>
-        </View>
-      </ScreenView>
-    </AnimatedScreen>
+        </ThemedView>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={"padding"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 90 : insets.top}
+        >
+          <FlatList
+            style={{ backgroundColor: Colors[theme].background_600 }}
+            inverted
+            keyExtractor={(_, index) => index.toString()}
+            data={conversation?.sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )}
+            renderItem={({ item, index }) => (
+              <ChatBubbles data={item} index={index} />
+            )}
+          ></FlatList>
+          <ThemedView style={{ padding: 10, flexDirection: "row", gap: 10 }}>
+            <TextInput
+              style={{
+                flex: 1,
+                padding: 12,
+                borderRadius: 50,
+                borderWidth: 1,
+                borderColor: Colors[theme].tint,
+                color: Colors[theme].text,
+              }}
+              placeholder="Type here..."
+              placeholderTextColor={Colors[theme].subText}
+            />
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
+              <SmileIcon color="#fff" fill={Colors[theme].tint} size={24} />
+              <SendHorizonal color="#FF6B6B" fill="#fff" size={24} />
+            </View>
+          </ThemedView>
+        </KeyboardAvoidingView>
+      </AnimatedScreen>
+    </ScreenView>
   );
 }

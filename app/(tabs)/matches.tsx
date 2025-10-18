@@ -1,16 +1,18 @@
 import AnimatedScreen from "@/components/animated-screen";
+import IconMessage from "@/components/icons/IconMessage";
 import ChatItemList from "@/components/molecules/matches/chat-items-list";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
+import { ThemedText } from "@/components/themed-text";
 import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
-import { matchesDataType } from "@/types/common";
+import { MatchesDataType } from "@/types/common";
 import { LinearGradient } from "expo-linear-gradient";
 import { MessageCircle } from "lucide-react-native";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
 export default function MatchesScreen() {
-  const chatData: matchesDataType[] = [
+  const chatData: MatchesDataType[] = [
     {
       name: "Josh",
       status: "Active",
@@ -107,19 +109,19 @@ export default function MatchesScreen() {
               <Text style={[styles.heading1, { color: Colors["--red-500"] }]}>
                 5
               </Text>
-              <Text style={styles.heading3}>Lorem Ipsum</Text>
+              <ThemedText style={styles.heading3}>Total Matches</ThemedText>
             </View>
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.heading1, { color: Colors["--blue-500"] }]}>
                 18
               </Text>
-              <Text style={styles.heading3}>Lorem Ipsum</Text>
+              <ThemedText style={styles.heading3}>Active Chats</ThemedText>
             </View>
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.heading1, { color: Colors["--green-500"] }]}>
                 3
               </Text>
-              <Text style={styles.heading3}>Lorem Ipsum</Text>
+              <ThemedText style={styles.heading3}>New Matches</ThemedText>
             </View>
           </View>
         </View>
@@ -135,8 +137,10 @@ export default function MatchesScreen() {
               fadeIn.animate,
             ]}
           >
-            <MessageCircle size={20} color="#666" />
-            <Text style={{ color: "#666" }}>Conversations</Text>
+            <IconMessage size={20} />
+            <ThemedText style={{ fontSize: 20, fontWeight: 600 }}>
+              Conversations
+            </ThemedText>
           </Animated.View>
           <FlatList
             scrollEnabled={false}
@@ -167,7 +171,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   heading3: {
-    color: "#666",
     fontSize: 14,
   },
 });

@@ -1,4 +1,7 @@
+import { ThemedView } from "@/components/themed-view";
+import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
+import { useThemeStore } from "@/stores/themeStore";
 import { useIsFocused } from "@react-navigation/native";
 import { format } from "date-fns";
 import { useEffect } from "react";
@@ -16,7 +19,8 @@ type ChatBubblesDataType = {
   index: number;
 };
 export default function ChatBubbles({ data, index }: ChatBubblesDataType) {
-  const { avatar, isMine, message, timestamp } = data;
+  const { isMine, message } = data;
+  const { theme } = useThemeStore();
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
     duration: 400,
@@ -46,10 +50,11 @@ export default function ChatBubbles({ data, index }: ChatBubblesDataType) {
     );
   };
   return (
-    <View
+    <ThemedView
       style={[
         styles.messageContainer,
         isMine ? styles.myMsgWrapper : styles.theirMsgWrapper,
+        { backgroundColor: Colors[theme].background_600 },
       ]}
     >
       <Animated.View
@@ -66,14 +71,13 @@ export default function ChatBubbles({ data, index }: ChatBubblesDataType) {
         </Text>
         <MessageTimeStamp />
       </Animated.View>
-    </View>
+    </ThemedView>
   );
 }
 const styles = StyleSheet.create({
   messageContainer: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "#eee",
   },
   msgWrapper: {
     padding: 16,

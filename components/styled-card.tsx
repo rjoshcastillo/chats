@@ -1,13 +1,21 @@
-import { type ViewProps, StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
+import { LinearGradient } from "expo-linear-gradient";
+import { type ViewProps, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
-export function StyledCard({ style, children, ...otherProps }: ViewProps) {
+type StyledCardProps = ViewProps & {
+  gradientColors?: readonly [string, string, ...string[]];
+};
+export function StyledCard({
+  style,
+  children,
+  gradientColors = ["#FF6B6B", "#FFD93D"],
+  ...otherProps
+}: StyledCardProps) {
   const pulse = usePulseAnimation({ scaleTo: 1.1, duration: 600, delay: 300 });
   return (
     <LinearGradient
-      colors={["#FF6B6B", "#FFD93D"]}
+      colors={gradientColors}
       style={[styles.card, style]}
       {...otherProps}
     >
@@ -34,7 +42,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     overflow: "hidden",
     minHeight: 250,
-    elevation: 6 //For android
+    elevation: 6, //For android
   },
   decoration: {
     position: "absolute",

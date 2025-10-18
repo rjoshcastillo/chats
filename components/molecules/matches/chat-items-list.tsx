@@ -1,14 +1,16 @@
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
-import { matchesItemType } from "@/types/common";
+import { MatchesItemType } from "@/types/common";
 import { MessageCircle } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
-import Animated from "react-native-reanimated";
 import Avatar from "../../ui/avatar";
 import Pill from "../../ui/pill";
 import { useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
+import { AnimatedThemedView } from "@/components/animated-themed-view";
+import { ThemedText } from "@/components/themed-text";
+import IconMessage from "@/components/icons/IconMessage";
 
-const ChatItemList = ({ item, index }: matchesItemType) => {
+const ChatItemList = ({ item, index }: MatchesItemType) => {
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
     duration: 200,
@@ -21,11 +23,10 @@ const ChatItemList = ({ item, index }: matchesItemType) => {
     }
   }, [isFocused]);
   return (
-    <Animated.View style={[fadeIn.animate]}>
+    <AnimatedThemedView style={[fadeIn.animate]}>
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: "#fff",
             borderColor: pressed ? "#FFD93D" : "#eee",
             borderWidth: pressed ? 1 : 0,
             borderRadius: 10,
@@ -48,15 +49,15 @@ const ChatItemList = ({ item, index }: matchesItemType) => {
             <View
               style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <Text style={{ fontWeight: "600", fontSize: 15 }}>
+              <ThemedText style={{ fontWeight: "600", fontSize: 15 }}>
                 {item.name}
-              </Text>
+              </ThemedText>
               <Pill label={item.status} color="#E3F2FD" textColor="#1565C0" />
             </View>
             <Text style={{ color: "#666", fontSize: 12 }}>{item.time}</Text>
           </View>
 
-          <Text style={{ color: "#333" }}>{item.message}</Text>
+          <ThemedText>{item.message}</ThemedText>
 
           <View style={{ flexDirection: "row", gap: 6, marginTop: 10 }}>
             {item.interests.map((tag: string, i: number) => (
@@ -70,10 +71,10 @@ const ChatItemList = ({ item, index }: matchesItemType) => {
           </View>
         </View>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <MessageCircle color="#666" size={22} />
+          <IconMessage size={20}/>
         </View>
       </Pressable>
-    </Animated.View>
+    </AnimatedThemedView>
   );
 };
 export default ChatItemList;

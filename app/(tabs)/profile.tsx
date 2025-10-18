@@ -1,30 +1,34 @@
 import AnimatedScreen from "@/components/animated-screen";
 import { Card } from "@/components/card";
+import IconHeart from "@/components/icons/IconHeart";
+import IconMessage from "@/components/icons/IconMessage";
+import IconUsers from "@/components/icons/IconUsers";
+import SettingOption from "@/components/molecules/profile/setting-option";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
 import { StyledCard } from "@/components/styled-card";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
 import Pill from "@/components/ui/pill";
 import ToggleSwitch from "@/components/ui/toggle-swtich";
 import { Colors } from "@/constants/theme";
-import { SETTING_CTA } from "@/types/enums";
+import { useThemeStore } from "@/stores/themeStore";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   ArrowLeft,
   ArrowRight,
   BellIcon,
-  Heart,
   ImageIcon,
   LogOutIcon,
   MapPin,
-  MessageCircle,
   MoonIcon,
   SettingsIcon,
   ShieldIcon,
   StarIcon,
+  Sun,
   UserRoundPenIcon,
-  Users2,
 } from "lucide-react-native";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Animated,
   Image,
@@ -34,60 +38,12 @@ import {
   View,
 } from "react-native";
 
-type settingListDataType = {
-  icon: ReactNode;
-  label: string;
-  subLabel: string;
-  cta: string | ReactNode;
-  value?: boolean;
-};
 export default function ProfileScreen() {
   const uri = "https://randomuser.me/api/portraits/men/1.jpg";
-  const [settingListData, setSettingListData] = useState<settingListDataType[]>(
-    [
-      {
-        icon: <BellIcon size={20} />,
-        label: "Notifications",
-        subLabel: "Allow in-app notifications",
-        cta: "toggle",
-        value: false,
-      },
-      {
-        icon: <MoonIcon size={20} />,
-        label: "Dark Mode",
-        subLabel: "Switch to dark themes",
-        cta: "toggle",
-        value: false,
-      },
-      {
-        icon: <ShieldIcon size={20} />,
-        label: "Privacy & Security",
-        subLabel: "Manage your account’s privacy",
-        cta: <ArrowRight size={18} color="#aaa" />,
-      },
-      {
-        icon: <StarIcon size={20} />,
-        label: "Get Premium",
-        subLabel: "Unlock exclusive features",
-        cta: (
-          <LinearGradient
-            colors={["#FF6B6B", "#FFD93D"]}
-            style={styles.getPremiumButton}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <Text style={styles.getPremiumButtonText}>Upgrade</Text>
-          </LinearGradient>
-        ),
-      },
-      {
-        icon: <LogOutIcon size={20} />,
-        label: "Sign Out",
-        subLabel: "Log out of your account",
-        cta: <LogOutIcon size={18} color="#aaa" />,
-      },
-    ]
-  );
+  const { theme, setTheme } = useThemeStore();
+  const [isAllowNotification, setIsAllowNotification] =
+    useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const images = [
     "https://randomuser.me/api/portraits/men/1.jpg",
@@ -98,32 +54,26 @@ export default function ProfileScreen() {
     "https://randomuser.me/api/portraits/women/6.jpg",
   ];
 
-  const onSettingValueChange = (
-    item: settingListDataType,
-    newValue: boolean
-  ) => {
-    setSettingListData((prev) =>
-      prev.map((setting) =>
-        setting.label === item.label ? { ...setting, value: newValue } : setting
-      )
-    );
-  };
   useEffect(() => {
-    console.log("Updated settings:", settingListData);
-  }, [settingListData]);
+    setIsDarkMode(theme === "dark");
+  }, [theme]);
   return (
     <ScrollableScreenView>
       <AnimatedScreen>
         {/* Header */}
-        <View style={styles.header}>
-          <ArrowLeft color="#555" />
-          <Text style={styles.headerTitle}>Profile</Text>
-          <UserRoundPenIcon color="#555" />
-        </View>
+        <ThemedView style={styles.header}>
+          <ArrowLeft color={Colors[theme].tint} />
+          <ThemedText
+            style={[styles.headerTitle, { color: Colors[theme].tint }]}
+          >
+            Profile
+          </ThemedText>
+          <UserRoundPenIcon color={Colors[theme].tint} />
+        </ThemedView>
 
         {/* Profile Card */}
         <Animated.View style={styles.cardContainer}>
-          <StyledCard>
+          <StyledCard gradientColors={["#FF6B6B", "#FFD93D"]}>
             {/* Avatar + Name + Location */}
             <View style={styles.profileHeader}>
               <Avatar uri={uri} size={80} />
@@ -138,39 +88,43 @@ export default function ProfileScreen() {
 
             <View
               style={{
-                backgroundColor: "#fff",
                 paddingHorizontal: 16,
                 paddingBottom: 20,
               }}
             >
               {/* About */}
               <Text style={styles.aboutText}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Adventure seeker, coffee enthusiast, and weekend photographer.
+                Always up for exploring new places and meeting interesting
+                people! 📸 ☕ ✈️
               </Text>
 
               {/* Stats Section */}
               <View style={styles.headerStatsContainer}>
                 <View style={styles.headerStatsBox}>
-                  <Heart color={Colors["--red-500"]} />
-                  <Text style={styles.statValue}>34</Text>
-                  <Text style={styles.statLabel}>Total Matches</Text>
+                  <IconHeart size={20} withBackground/>
+                  <ThemedText style={styles.statValue}>34</ThemedText>
+                  <ThemedText style={styles.statLabel}>
+                    Total Matches
+                  </ThemedText>
                 </View>
                 <View style={styles.headerStatsBox}>
-                  <MessageCircle color={Colors["--blue-500"]} />
-                  <Text style={styles.statValue}>7</Text>
-                  <Text style={styles.statLabel}>Active Chats</Text>
+                  <IconMessage size={20} withBackground/>
+                  <ThemedText style={styles.statValue}>7</ThemedText>
+                  <ThemedText style={styles.statLabel}>Active Chats</ThemedText>
                 </View>
                 <View style={styles.headerStatsBox}>
-                  <Users2 color={Colors["--green-500"]} />
-                  <Text style={styles.statValue}>2.3k</Text>
-                  <Text style={styles.statLabel}>Profile Views</Text>
+                  <IconUsers size={20} withBackground/>
+                  <ThemedText style={styles.statValue}>2.3k</ThemedText>
+                  <ThemedText style={styles.statLabel}>
+                    Profile Views
+                  </ThemedText>
                 </View>
               </View>
 
               {/* Interests */}
               <View style={{ marginTop: 24 }}>
-                <Text style={styles.sectionTitle}>Interests</Text>
+                <ThemedText style={styles.sectionTitle}>Interests</ThemedText>
                 <View style={styles.interestsContainer}>
                   {[
                     "Lorem",
@@ -199,82 +153,103 @@ export default function ProfileScreen() {
 
         {/* Pictures */}
         <Animated.View style={styles.cardContainer}>
-          <Card>
-            <View
-              style={[
-                styles.settingsContainer,
-                { justifyContent: "space-between" },
-              ]}
-            >
-              <View style={styles.settingsContainer}>
-                <ImageIcon size={20} />
-                <Text style={{ fontSize: 18, fontWeight: 600 }}>Pictures</Text>
+          <ThemedView>
+            <Card>
+              <View
+                style={[
+                  styles.settingsContainer,
+                  { justifyContent: "space-between" },
+                ]}
+              >
+                <View style={styles.settingsContainer}>
+                  <ImageIcon size={20} color={Colors[theme].text} />
+                  <ThemedText style={{ fontSize: 18, fontWeight: 600 }}>
+                    Pictures
+                  </ThemedText>
+                </View>
+                <Pressable>
+                  <Text style={{ color: "#1565C0" }}>View more</Text>
+                </Pressable>
               </View>
-              <Pressable>
-                <Text style={{ color: "#1565C0" }}>View more</Text>
-              </Pressable>
-            </View>
 
-            <View style={styles.gallery}>
-              {images.map((uri, index) => (
-                <Image key={index} source={{ uri }} style={styles.image} />
-              ))}
-            </View>
-          </Card>
+              <View style={styles.gallery}>
+                {images.map((uri, index) => (
+                  <Image key={index} source={{ uri }} style={styles.image} />
+                ))}
+              </View>
+            </Card>
+          </ThemedView>
         </Animated.View>
         {/* Settings */}
         <Animated.View style={styles.cardContainer}>
           <Card>
             <View style={styles.settingsContainer}>
-              <SettingsIcon size={20} />
-              <Text style={{ fontSize: 18, fontWeight: 600 }}>Settings</Text>
+              <SettingsIcon size={20} color={Colors[theme].text} />
+              <ThemedText style={{ fontSize: 18, fontWeight: 600 }}>
+                Settings
+              </ThemedText>
             </View>
             <View style={{ paddingVertical: 25, gap: 30 }}>
-              {settingListData.map((item, index) => (
-                <View
-                  key={index}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View style={{ flexDirection: "row", gap: 10 }}>
-                    <View
-                      style={{
-                        backgroundColor: "#eee",
-                        width: 40,
-                        height: 40,
-                        borderRadius: 50,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {item.icon}
-                    </View>
-                    <View style={{ flexShrink: 1 }}>
-                      <View>
-                        <Text style={{ fontSize: 16 }}>{item.label}</Text>
-                        <Text style={{ color: "#aaa", fontSize: 14 }}>
-                          {item.subLabel}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View>
-                    {item.cta === SETTING_CTA.TOGGLE && (
-                      <ToggleSwitch
-                        key={item.label}
-                        value={item?.value ?? false}
-                        onValueChange={(value) =>
-                          onSettingValueChange(item, value)
-                        }
-                      ></ToggleSwitch>
-                    )}
-                    {item.cta !== SETTING_CTA.TOGGLE && item.cta}
-                  </View>
-                </View>
-              ))}
+              <SettingOption
+                label="Notification"
+                subLabel="Allow in-app notifications"
+                icon={<BellIcon size={20} />}
+                trigger={() => (
+                  <ToggleSwitch
+                    value={isAllowNotification ?? false}
+                    onValueChange={(value) => setIsAllowNotification(value)}
+                  ></ToggleSwitch>
+                )}
+              ></SettingOption>
+              <SettingOption
+                label="Theme Mode"
+                subLabel={
+                  isDarkMode
+                    ? "Switch to light themes"
+                    : "Switch to dark themes"
+                }
+                icon={isDarkMode ? <Sun size={20} /> : <MoonIcon size={20} />}
+                trigger={() => (
+                  <ToggleSwitch
+                    value={isDarkMode ?? false}
+                    onValueChange={(value) => {
+                      setIsDarkMode(value);
+                      setTheme(value ? "dark" : "light");
+                    }}
+                  ></ToggleSwitch>
+                )}
+              ></SettingOption>
+              <SettingOption
+                label="Privacy & Security"
+                subLabel="Manage your account’s privacy"
+                icon={<ShieldIcon size={20} />}
+                trigger={() => (
+                  <ArrowRight size={18} color={Colors[theme].text} />
+                )}
+              ></SettingOption>
+              <SettingOption
+                label="Get Premium"
+                subLabel="Unlock exclusive features"
+                icon={<StarIcon size={20} />}
+                trigger={() => (
+                  <LinearGradient
+                    colors={["#FF6B6B", "#FFD93D"]}
+                    style={styles.getPremiumButton}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                  >
+                    <Text style={styles.getPremiumButtonText}>Upgrade</Text>
+                  </LinearGradient>
+                )}
+              ></SettingOption>
+              <SettingOption
+                label="Sign Out"
+                subLabel="Log out of your account"
+                icon={<LogOutIcon size={20} />}
+                trigger={() => (
+                  <LogOutIcon size={18} color={Colors[theme].text} />
+                )}
+              ></SettingOption>
             </View>
           </Card>
         </Animated.View>
@@ -290,10 +265,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 16,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    backgroundColor: "#fff",
   },
   headerTitle: {
     fontSize: 20,
@@ -310,7 +281,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontWeight: "600",
-    fontSize: 20,
+    fontSize: 24,
     color: "#3a3a3a",
   },
   locationContainer: {
@@ -321,14 +292,14 @@ const styles = StyleSheet.create({
   },
   locationText: {
     color: "#3a3a3a",
-    fontSize: 14,
+    fontSize: 16,
   },
   aboutText: {
-    color: "#444",
-    fontSize: 14,
+    fontSize: 18,
+    color: '#fff',
     marginTop: 20,
     paddingHorizontal: 10,
-    lineHeight: 20,
+    lineHeight: 25,
   },
   headerStatsContainer: {
     flexDirection: "row",
@@ -344,12 +315,11 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: 18,
     marginTop: 4,
   },
   statLabel: {
-    fontSize: 12,
-    color: "#666",
+    fontSize: 16,
   },
   sectionTitle: {
     fontWeight: "600",

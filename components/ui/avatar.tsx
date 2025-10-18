@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
+import { ThemedView } from "../themed-view";
 
 type AvatarType = {
   uri: string;
@@ -7,7 +8,7 @@ type AvatarType = {
 };
 export default function Avatar({ uri, size = 80 }: AvatarType) {
   return (
-    <View
+    <ThemedView
       style={[
         styles.container,
         { width: size, height: size, borderRadius: size / 2 },
@@ -17,13 +18,12 @@ export default function Avatar({ uri, size = 80 }: AvatarType) {
         source={{ uri }}
         style={{ width: size, height: size, borderRadius: size / 2 }}
       />
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     overflow: "hidden",
-    backgroundColor: "#eee", // fallback bg while loading
   },
 });

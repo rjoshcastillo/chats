@@ -1,34 +1,34 @@
+import { Colors } from "@/constants/theme";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { useThemeStore } from "@/stores/themeStore";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import { View } from "react-native";
 import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import { useThemeColor } from "@/hooks/use-theme-color";
-import { useColorScheme } from "react-native"; // ✅ for system detection
 
 export const unstable_settings = {
   anchor: "(tabs)",
 };
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
+  const { theme, loadTheme } = useThemeStore();
+
+  useEffect(() => {
+    (async () => {
+      await loadTheme();
+    })();
+  }, []);
 
   const backgroundColor = useThemeColor(
-    { light: "#fff", dark: "#2b2b2cff" },
+    { light: Colors[theme].background, dark: Colors[theme].background },
     "background"
   );
-
-  const [fontsLoaded] = useFonts({
-    PoppinsRegular: require("../assets/fonts/Quicksand-Regular.ttf"),
-    PoppinsMedium: require("../assets/fonts/Quicksand-Medium.ttf"),
-    PoppinsBold: require("../assets/fonts/Quicksand-Bold.ttf"),
-  });
-
-  if (!fontsLoaded) return null;
+  const isDark = theme === "dark";
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor }}>
+    <View style={{ flex: 1, backgroundColor }}>
       <Stack initialRouteName="index" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="index" />
@@ -41,6 +41,6 @@ export default function RootLayout() {
         backgroundColor={backgroundColor}
         translucent={false}
       />
-    </SafeAreaView>
+    </View>
   );
 }

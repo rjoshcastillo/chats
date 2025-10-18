@@ -1,20 +1,22 @@
 import { type ViewProps, StyleSheet, View } from "react-native";
+import { ThemedView } from "./themed-view";
+import { useThemeStore } from "@/stores/themeStore";
+import { Colors } from "@/constants/theme";
 
 export function Card({ style, children, ...otherProps }: ViewProps) {
+  const { theme } = useThemeStore();
   return (
-    <View
-      style={[styles.card, style]}
+    <ThemedView
+      style={[styles.card, style, { shadowColor: Colors[theme].shadowColor}]}
       {...otherProps}
     >
       {children}
-    </View>
+    </ThemedView>
   );
 }
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
     borderRadius: 16,
-    shadowColor: "#3a3a3a",
     shadowOpacity: 0.1,
     shadowRadius: 8,
     overflow: "hidden",

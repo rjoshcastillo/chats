@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   TouchableOpacity,
   StyleSheet,
   Text,
-  View,
-  useColorScheme,
 } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withSpring,
   withTiming,
-  useSharedValue,
 } from "react-native-reanimated";
 import { HomeIcon, MessageCircle, User2, Heart } from "lucide-react-native";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
 import { AnimatedThemedView } from "./animated-themed-view";
+import { useThemeStore } from "@/stores/themeStore";
+import { Colors } from "@/constants/theme";
 
 // ✅ wrap Text so we can animate it
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -40,16 +39,20 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation,
 }) => {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
-
   const activeIndex = state.index;
   const slideIn = useSlideInAnimation({
     fromY: 100,
     duration: 300,
   });
+  const { theme } = useThemeStore();
   return (
-    <AnimatedThemedView style={[styles.container, slideIn.animate, { borderTopColor: isDark ? '#555' : '#eee'}]}>
+    <AnimatedThemedView
+      style={[
+        styles.container,
+        slideIn.animate,
+        { borderTopColor: Colors[theme].background_600 },
+      ]}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = options.title ?? route.name;
@@ -108,7 +111,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: 70,
+    height: 80,
+    overflow:'hidden',
     width: "100%",
     borderTopWidth: 1,
     shadowColor: "#000",
@@ -121,6 +125,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     marginTop: 4,
+    marginBottom: 14,
     color: INACTIVE_COLOR,
   },
 });
