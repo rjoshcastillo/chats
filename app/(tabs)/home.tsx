@@ -1,4 +1,9 @@
 import { AnimatedThemedView } from "@/components/animated-themed-view";
+import IconHeart from "@/components/icons/IconHeart";
+import IconMessage from "@/components/icons/IconMessage";
+import IconProfile from "@/components/icons/IconProfiles";
+import IconStar from "@/components/icons/IconStar";
+import IconUsers from "@/components/icons/IconUsers";
 import QuickActionItem from "@/components/molecules/home/quick-action-item";
 import RecentActivityItem from "@/components/molecules/home/recent-activity-item";
 import ScrollableScreenView from "@/components/scrollable-screen-view";
@@ -9,7 +14,7 @@ import { Colors } from "@/constants/theme";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
 import { usePulseAnimation } from "@/hooks/use-pulse-animation";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
-import { quickActionDataType, recentActivityDataType } from "@/types/common";
+import { QuickActionDataType, RecentActivityDataType } from "@/types/common";
 import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -51,7 +56,7 @@ export default function HomeScreen() {
     duration: 400,
   });
 
-  const recentActivty: recentActivityDataType[] = [
+  const recentActivty: RecentActivityDataType[] = [
     { id: "12", activity: "Josh has visited your profile", date: "2 mins ago" },
     {
       id: "1",
@@ -69,10 +74,22 @@ export default function HomeScreen() {
       date: "32 mins ago",
     },
   ];
-  const actions: quickActionDataType[] = [
-    { label: "Matches", link: "/matches", icon: Heart },
-    { label: "Profile", link: "/profile", icon: User2 },
-    { label: "Premium", link: "/premium", icon: Star },
+  const actions: QuickActionDataType[] = [
+    {
+      label: "Matches",
+      link: "/matches",
+      icon: <IconHeart size={18} withBackground />,
+    },
+    {
+      label: "Profile",
+      link: "/profile",
+      icon: <IconProfile size={18} withBackground />,
+    },
+    {
+      label: "Premium",
+      link: "/premium",
+      icon: <IconStar size={18} withBackground />,
+    },
   ];
   useEffect(() => {
     if (isFocused) {
@@ -110,17 +127,17 @@ export default function HomeScreen() {
         </ThemedView>
         <ThemedView style={styles.headerStatsContainer}>
           <ThemedView style={styles.headerStatsBox}>
-            <Heart color={Colors["--red-500"]} />
+            <IconHeart size={20} />
             <ThemedText type="defaultSemiBold">34</ThemedText>
             <ThemedText type="subtitle">Total Matches</ThemedText>
           </ThemedView>
           <ThemedView style={styles.headerStatsBox}>
-            <MessageCircle color={Colors["--blue-500"]} />
+            <IconMessage size={20} />
             <ThemedText type="defaultSemiBold">7</ThemedText>
             <ThemedText type="subtitle">Active Chats</ThemedText>
           </ThemedView>
           <ThemedView style={styles.headerStatsBox}>
-            <Users2 color={Colors["--green-500"]} />
+            <IconUsers size={20} />
             <ThemedText type="defaultSemiBold">2.3k</ThemedText>
             <ThemedText type="subtitle">Profile Views</ThemedText>
           </ThemedView>
@@ -200,7 +217,7 @@ export default function HomeScreen() {
       {/* Quick Actions */}
       <ThemedView style={{ marginHorizontal: 20 }}>
         <Animated.View style={[quickActionfadeIn.animate]}>
-          <ThemedText  type="defaultSemiBold" style={[{ marginVertical: 20 }]}>
+          <ThemedText type="defaultSemiBold" style={[{ marginVertical: 20 }]}>
             Quick Actions
           </ThemedText>
           <View

@@ -1,10 +1,12 @@
 import { ThemedPressable } from "@/components/themed-pressable";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
 import { useFadeInAnimation } from "@/hooks/use-fade-in-animation";
-import { quickActionItemType } from "@/types/common";
+import { QuickActionItemType } from "@/types/common";
 import { useIsFocused } from "@react-navigation/native";
 import { Heart, Star, User2 } from "lucide-react-native";
 import { useEffect } from "react";
-import { Pressable, View, Text, Dimensions } from "react-native";
+import { Pressable, View, Text, Dimensions, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
@@ -12,7 +14,7 @@ const ITEM_MARGIN = 10;
 const NUM_COLUMNS = 2;
 const ITEM_WIDTH = (width - ITEM_MARGIN * (NUM_COLUMNS + 1)) / NUM_COLUMNS;
 
-export default function QuickActionItem({ item, index }: quickActionItemType) {
+export default function QuickActionItem({ item, index }: QuickActionItemType) {
   const isFocused = useIsFocused();
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
@@ -47,16 +49,17 @@ export default function QuickActionItem({ item, index }: quickActionItemType) {
           style={{
             width: 35,
             height: 35,
-            backgroundColor: "#eee",
             borderRadius: 99,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <item.icon color="#343434ff" size={18} />
+          {item.icon}
         </View>
-        <Text>{item.label}</Text>
+        <ThemedText>{item.label}</ThemedText>
       </ThemedPressable>
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({});

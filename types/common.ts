@@ -1,24 +1,26 @@
-export type quickActionDataType = {
+import { ReactNode } from "react";
+
+export type QuickActionDataType = {
   label: string;
   link: string;
-  icon: any;
+  icon: ReactNode;
 };
 
-export type quickActionItemType = {
-  item: quickActionDataType;
+export type QuickActionItemType = {
+  item: QuickActionDataType;
   index: number;
 };
-export type recentActivityDataType = {
+export type RecentActivityDataType = {
   id: string;
   activity: string;
   date: string;
 };
-export type recentActivityItemType = {
-  item: recentActivityDataType;
+export type RecentActivityItemType = {
+  item: RecentActivityDataType;
   index: number;
 };
 
-export type matchesDataType = {
+export type MatchesDataType = {
   name: string;
   status: string;
   time: string;
@@ -26,18 +28,18 @@ export type matchesDataType = {
   interests: Array<string>;
   avatar: string;
 };
-export type matchesItemType = {
-  item: matchesDataType;
+export type MatchesItemType = {
+  item: MatchesDataType;
   index: number;
 };
 
-export type conversationDataType = {
+export type ConversationDataType = {
   avatar: string;
   isMine: boolean;
   message: string;
   timestamp: string;
 };
-export type conversationItemType = {
-  item: conversationDataType;
+export type ConversationItemType = {
+  item: ConversationDataType;
   index: number;
 };

@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from "react-native";
 import Animated, {
   useAnimatedStyle,
   withSpring,
@@ -9,6 +15,7 @@ import Animated, {
 import { HomeIcon, MessageCircle, User2, Heart } from "lucide-react-native";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
+import { AnimatedThemedView } from "./animated-themed-view";
 
 // ✅ wrap Text so we can animate it
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -33,13 +40,16 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation,
 }) => {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
   const activeIndex = state.index;
   const slideIn = useSlideInAnimation({
     fromY: 100,
     duration: 300,
   });
   return (
-    <Animated.View style={[styles.container, slideIn.animate]}>
+    <AnimatedThemedView style={[styles.container, slideIn.animate, { borderTopColor: isDark ? '#555' : '#eee'}]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = options.title ?? route.name;
@@ -87,7 +97,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
           </TouchableOpacity>
         );
       })}
-    </Animated.View>
+    </AnimatedThemedView>
   );
 };
 
@@ -99,9 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     height: 70,
-    backgroundColor: "#fff",
     width: "100%",
-    borderTopColor: "#eee",
     borderTopWidth: 1,
     shadowColor: "#000",
   },
