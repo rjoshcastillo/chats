@@ -14,7 +14,7 @@ const ITEM_MARGIN = 10;
 const NUM_COLUMNS = 2;
 const ITEM_WIDTH = (width - ITEM_MARGIN * (NUM_COLUMNS + 1)) / NUM_COLUMNS;
 
-export default function QuickActionItem({ item, index }: QuickActionItemType) {
+export default function QuickActionItem({ item, onPress, index }: QuickActionItemType) {
   const isFocused = useIsFocused();
   const fadeIn = useFadeInAnimation({
     fromScale: 0.9,
@@ -30,9 +30,7 @@ export default function QuickActionItem({ item, index }: QuickActionItemType) {
   return (
     <Animated.View key={index} style={[fadeIn.animate]}>
       <ThemedPressable
-        onPress={() => {
-          alert(item.label);
-        }}
+        onPress={onPress}
         style={({ pressed }) => [
           {
             width: ITEM_WIDTH - 10,

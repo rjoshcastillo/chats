@@ -62,7 +62,6 @@ export default function ProfileScreen() {
       <AnimatedScreen>
         {/* Header */}
         <ThemedView style={styles.header}>
-          <ArrowLeft color={Colors[theme].tint} />
           <ThemedText
             style={[styles.headerTitle, { color: Colors[theme].tint }]}
           >
@@ -80,7 +79,7 @@ export default function ProfileScreen() {
               <View style={{ flex: 1 }}>
                 <Text style={styles.profileName}>Joshua Ramos</Text>
                 <View style={styles.locationContainer}>
-                  <MapPin size={18} color="#3a3a3a" />
+                  <MapPin size={18} color="#eee" />
                   <Text style={styles.locationText}>Guadalupe Makati PH</Text>
                 </View>
               </View>
@@ -102,19 +101,19 @@ export default function ProfileScreen() {
               {/* Stats Section */}
               <View style={styles.headerStatsContainer}>
                 <View style={styles.headerStatsBox}>
-                  <IconHeart size={20} withBackground/>
+                  <IconHeart size={20} withBackground />
                   <ThemedText style={styles.statValue}>34</ThemedText>
                   <ThemedText style={styles.statLabel}>
                     Total Matches
                   </ThemedText>
                 </View>
                 <View style={styles.headerStatsBox}>
-                  <IconMessage size={20} withBackground/>
+                  <IconMessage size={20} withBackground />
                   <ThemedText style={styles.statValue}>7</ThemedText>
                   <ThemedText style={styles.statLabel}>Active Chats</ThemedText>
                 </View>
                 <View style={styles.headerStatsBox}>
-                  <IconUsers size={20} withBackground/>
+                  <IconUsers size={20} withBackground />
                   <ThemedText style={styles.statValue}>2.3k</ThemedText>
                   <ThemedText style={styles.statLabel}>
                     Profile Views
@@ -124,7 +123,7 @@ export default function ProfileScreen() {
 
               {/* Interests */}
               <View style={{ marginTop: 24 }}>
-                <ThemedText style={styles.sectionTitle}>Interests</ThemedText>
+                <Text style={styles.sectionTitle}>Interests</Text>
                 <View style={styles.interestsContainer}>
                   {[
                     "Lorem",
@@ -268,6 +267,8 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
+    flex: 1,
+    textAlign: "center",
     fontWeight: "600",
   },
   cardContainer: {
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontWeight: "600",
     fontSize: 24,
-    color: "#3a3a3a",
+    color: "#eee",
   },
   locationContainer: {
     flexDirection: "row",
@@ -291,12 +292,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   locationText: {
-    color: "#3a3a3a",
+    color: "#eee",
     fontSize: 16,
   },
   aboutText: {
     fontSize: 18,
-    color: '#fff',
+    color: "#fff",
     marginTop: 20,
     paddingHorizontal: 10,
     lineHeight: 25,
@@ -317,14 +318,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 18,
     marginTop: 4,
+    color: "#eee",
   },
   statLabel: {
     fontSize: 16,
+    color: "#eee",
   },
   sectionTitle: {
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 10,
+    color: '#eee'
   },
   interestsContainer: {
     flexDirection: "row",

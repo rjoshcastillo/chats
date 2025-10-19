@@ -113,7 +113,6 @@ export default function MessagesScreen() {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <ArrowLeft color={Colors[theme].tint} />
             <Avatar
               uri="https://randomuser.me/api/portraits/men/9.jpg"
               size={45}

@@ -1,13 +1,15 @@
+import { ExternalPathString, RelativePathString } from "expo-router";
 import { ReactNode } from "react";
 
 export type QuickActionDataType = {
   label: string;
-  link: string;
+  link: RelativePathString | ExternalPathString;
   icon: ReactNode;
 };
 
 export type QuickActionItemType = {
   item: QuickActionDataType;
+  onPress: () => void;
   index: number;
 };
 export type RecentActivityDataType = {

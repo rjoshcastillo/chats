@@ -17,6 +17,7 @@ import { useSlideInAnimation } from "@/hooks/use-slide-in-animation";
 import { QuickActionDataType, RecentActivityDataType } from "@/types/common";
 import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import {
   Heart,
   MessageCircle,
@@ -37,6 +38,7 @@ import Animated from "react-native-reanimated";
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
+  const router = useRouter();
   const findMatchfadeIn = useFadeInAnimation({
     fromScale: 0.9,
     duration: 400,
@@ -77,17 +79,17 @@ export default function HomeScreen() {
   const actions: QuickActionDataType[] = [
     {
       label: "Matches",
-      link: "/matches",
+      link: "./matches",
       icon: <IconHeart size={18} withBackground />,
     },
     {
       label: "Profile",
-      link: "/profile",
+      link: "./profile",
       icon: <IconProfile size={18} withBackground />,
     },
     {
       label: "Premium",
-      link: "/premium",
+      link: "./premium",
       icon: <IconStar size={18} withBackground />,
     },
   ];
@@ -186,7 +188,8 @@ export default function HomeScreen() {
               <ThemedText
                 style={{ textAlign: "center", color: "#eee", fontSize: 18 }}
               >
-                Connect with someone new and discover if there's chemistry in just 10 minutes.
+                Connect with someone new and discover if there's chemistry in
+                just 10 minutes.
               </ThemedText>
             </View>
             <Animated.View style={[pulse.animate]}>
@@ -227,7 +230,12 @@ export default function HomeScreen() {
             }}
           >
             {actions.map((item, index) => (
-              <QuickActionItem key={index} item={item} index={index} />
+              <QuickActionItem
+                key={index}
+                item={item}
+                index={index}
+                onPress={() => router.push(item.link)}
+              />
             ))}
           </View>
         </Animated.View>
@@ -235,7 +243,10 @@ export default function HomeScreen() {
 
       {/* Recent Activity */}
       <Animated.View
-        style={[recentActivtyFadeIn.animate, { marginHorizontal: 20, marginVertical: 10 }]}
+        style={[
+          recentActivtyFadeIn.animate,
+          { marginHorizontal: 20, marginVertical: 10 },
+        ]}
       >
         <ThemedText
           type="defaultSemiBold"
